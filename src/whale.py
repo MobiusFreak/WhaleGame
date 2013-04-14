@@ -13,6 +13,11 @@ class Whale(pygame.sprite.DirtySprite):
         self.rect = self.image.get_rect()
         self.rect.center = pos
 
+<<<<<<< HEAD
     def update(self, t):
         pass
 
+=======
+    def update():
+        pass
+>>>>>>> b8e816ec827f6b36061cfd57c2f603f7ba2ce97e
