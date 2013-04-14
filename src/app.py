@@ -16,7 +16,7 @@ class ExitListener:
 
 
 class App:
-    def __init__(self, size = (800, 600)):
+    def __init__(self, size = (1024, 600)):
         self.size = size
         width, height = size
         self.screen = pygame.display.set_mode(size)

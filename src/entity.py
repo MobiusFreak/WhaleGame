@@ -10,11 +10,11 @@ V_DEFAULT_FLOATABILITY = Vector(0, -2)
 
 
 class Entity(pygame.sprite.DirtySprite):
-    def __init__(self, Surface, pos = Vector(0,0)):
+    def __init__(self, Surface, pos = (0,0)):
         pygame.sprite.DirtySprite.__init__(self)
 
         self.floatability = V_DEFAULT_FLOATABILITY
-        self.pos = pos
+        self.pos = Vector(pos)
         self.speed = Vector(0,0)
 
         self.image = Surface
@@ -26,21 +26,21 @@ class Entity(pygame.sprite.DirtySprite):
         self.update_pos(t)
 
     def update_speed(self, t):
-        self.speed += self.get_acceleration() * t
+        self.speed += self.get_acceleration() * t * 1e-2
 
     def update_pos(self, t):
         self.pos += self.speed
-        if (self.pos - Vector(self.rect.center)).module > 0.01:
+        if (self.pos - Vector(self.rect.center)).module > 0.1:
             self.rect.center = tuple(self.pos)
 
     def get_friction(self):
-        if pos_y > 300: # in water
+        if self.pos.y > 300: # in water
             return -1 * self.speed * WATER_FRICTION
         else: # in air
             return -1 * self.speed * AIR_FRICTION
 
     def get_floatability(self):
-        if pos_y > 300: # in water
+        if self.pos.y > 300: # in water
             return self.floatability
         else:
             return Vector(0,0)

@@ -2,11 +2,20 @@ import math
 
 
 class Vector(object):
-    def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y
-        self.module = math.sqrt(x**2 + y**2)
-        self.angle = math.atan2(y,x)
+    def __init__(self, arg1=0, arg2=0):
+        if isinstance(arg1, tuple):
+            self.x, self.y = arg1
+        elif isinstance(arg1, Vector):
+            self.x = arg1.x
+            self.y = arg1.y
+        else:
+            self.x = arg1
+            self.y = arg2
+
+        x = self.x
+        y = self.y
+        self.__module = math.sqrt(x**2 + y**2)
+        self.__angle = math.atan2(y,x)
 
     def __add__(self, other):
         if isinstance(other, Vector):
@@ -31,22 +40,39 @@ class Vector(object):
         return "<" + str(self.x) + ", " + str(self.y) + ">"
 
     def get_module(self):
-        return math.sqrt(self.x**2 + self.y**2)
+        return self.__module
 
     def set_module(self, mod):
-        self.module = mod
-        self.x = mod * math.cos(self.angle)
-        self.y = mod * math.sin(self.angle)
+        self.__module = mod
+        self.x = mod * math.cos(self.__angle)
+        self.y = mod * math.sin(self.__angle)
 
     def get_angle(self):
         return math.degrees((math.atan2(self.y, self.x)%\
-                                 (2*math.pi)))
+                             (2*math.pi)))
 
     def set_angle(self, angle):
         angle = math.radians(angle)
-        self.angle = angle
-        self.x = self.module * math.cos(angle)
-        self.y = self.module * math.sin(angle)
+        self.__angle = angle
+        self.x = self.__module * math.cos(angle)
+        self.y = self.__module * math.sin(angle)
+
+    def __getattr__(self, name):
+        if name == "angle":
+            return self.get_angle()
+        elif name == "module":
+            return self.get_module()
+        else:
+            raise AttributeError
+
+    def __setattr__(self, name, value):
+        if name == "angle":
+            return self.set_angle(value)
+        elif name == "module":
+            return self.set_module(value)
+        else:
+            object.__setattr__(self, name, value)
+
 
     def __getitem__(self, i):
         if i == 0:
