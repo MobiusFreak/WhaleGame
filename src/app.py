@@ -5,6 +5,10 @@ from whale import Whale
 
 FPS_LIMIT = 60
 
+GRAVITY = 1
+AIR_FRICTION = 0.1
+WATER_FRICTION = 0.2
+DEFAULT_FLOTABILITY = 2
 
 class ExitListener:
     def __init__(self, App):
@@ -16,24 +20,42 @@ class ExitListener:
 
 
 class Entity(pygame.sprite.DirtySprite):
-    def __init__(self, Surface, pos = (0,0), gravity = 1):
+    def __init__(self, Surface, pos = (0,0)):
         pygame.sprite.DirtySprite.__init__(self)
 
-        self.gravity = gravity
+        self.flotability = DEFAULT_FLOTABILITY
         self.pos = pos
+        self.speed = (0,0)
 
         self.image = Surface
         self.rect = self.image.get_rect()
         self.rect.center = pos
 
     def update(self, t):
-        pass
-        # x, y = self.rect.center
-        # newx = x
-        # newy = self.gravity * t * (300 - y) * 1e-2
+        speed_x, speed_y = self.speed
+        pos_x, pos_y = self.pos
 
-        # self.pos = (newx, newy)
-        # self.rect.center = self.pos
+        acc_y = 0
+
+        if speed_y > 0:
+            friction = -1
+        else:
+            friction = 1
+
+        if pos_y > 300: # in water
+            acc_y -= self.flotability
+            acc_y += friction * WATER_FRICTION * speed_y
+        else: # in air
+            acc_y += friction * AIR_FRICTION * speed_y
+
+        acc_y += GRAVITY
+
+        new_speed_y = speed_y + (acc_y * t * 0.5e-2)
+
+        self.speed = (speed_x, new_speed_y)
+
+        self.pos = (pos_x + speed_x, pos_y + new_speed_y )
+        self.rect.center = self.pos
 
 
 class App:
@@ -47,7 +69,7 @@ class App:
         self.entities = pygame.sprite.Group()
 
         self.create_ocean()
-        self.create_whale()
+        #self.create_whale()
 
         self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
 
@@ -88,7 +110,22 @@ class App:
 
         image = pygame.Surface((50, 50))
         image.fill((200,0,0))
-        ent = Entity(image, pos = (400,500))
+        ent = Entity(image, pos = (725,500))
+        self.entities.add(ent)
+
+        image = pygame.Surface((50, 50))
+        image.fill((0,200,0))
+        ent = Entity(image, pos = (450,50))
+        self.entities.add(ent)
+
+        image = pygame.Surface((50, 50))
+        image.fill((0,0,0))
+        ent = Entity(image, pos = (125,250))
+        self.entities.add(ent)
+
+        image = pygame.Surface((50, 50))
+        image.fill((255,0,255))
+        ent = Entity(image, pos = (50,350))
         self.entities.add(ent)
 
 
