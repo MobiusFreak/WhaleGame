@@ -1,54 +1,49 @@
 import pygame, sys
 from pygame.locals import *
+from vector import Vector
 
-GRAVITY = 1
 AIR_FRICTION = 0.1
 WATER_FRICTION = 0.2
-DEFAULT_FLOTABILITY = 2
+
+V_GRAVITY = Vector(0, 1)
+V_DEFAULT_FLOATABILITY = Vector(0, -2)
 
 
 class Entity(pygame.sprite.DirtySprite):
-    def __init__(self, Surface, pos = (0,0)):
+    def __init__(self, Surface, pos = Vector(0,0)):
         pygame.sprite.DirtySprite.__init__(self)
 
-        self.flotability = DEFAULT_FLOTABILITY
+        self.floatability = V_DEFAULT_FLOATABILITY
         self.pos = pos
-        self.speed = (0,0)
+        self.speed = Vector(0,0)
 
         self.image = Surface
         self.rect = self.image.get_rect()
-        self.rect.center = pos
+        self.rect.center = tuple(pos)
 
     def update(self, t):
         self.update_speed(t)
         self.update_pos(t)
 
     def update_speed(self, t):
-        speed_x, speed_y = self.speed
-        pos_x, pos_y = self.pos
-        acc_y = 0
-
-        if speed_y > 0:
-            friction = -1
-        else:
-            friction = 1
-
-        if pos_y > 300: # in water
-            acc_y -= self.flotability
-            acc_y += friction * WATER_FRICTION * speed_y
-        else: # in air
-            acc_y += friction * AIR_FRICTION * speed_y 
-
-        acc_y += GRAVITY
-
-        new_speed_y = speed_y + (acc_y * t * 0.5e-2)
-
-        self.speed = (speed_x, new_speed_y)
-
+        self.speed += self.get_acceleration() * t
 
     def update_pos(self, t):
-        speed_x, speed_y = self.speed
-        pos_x, pos_y = self.pos
+        self.pos += self.speed
+        if (self.pos - Vector(self.rect.center)).module > 0.01:
+            self.rect.center = tuple(self.pos)
 
-        self.pos = (pos_x + speed_x, pos_y + speed_y )
-        self.rect.center = self.pos
+    def get_friction(self):
+        if pos_y > 300: # in water
+            return -1 * self.speed * WATER_FRICTION
+        else: # in air
+            return -1 * self.speed * AIR_FRICTION
+
+    def get_floatability(self):
+        if pos_y > 300: # in water
+            return self.floatability
+        else:
+            return Vector(0,0)
+
+    def get_acceleration(self):
+        return V_GRAVITY + self.get_friction() + self.get_floatability()
