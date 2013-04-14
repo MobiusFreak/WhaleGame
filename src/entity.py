@@ -19,6 +19,10 @@ class Entity(pygame.sprite.DirtySprite):
         self.rect.center = pos
 
     def update(self, t):
+        self.update_speed(t)
+        self.update_pos(t)
+
+    def update_speed(self, t):
         speed_x, speed_y = self.speed
         pos_x, pos_y = self.pos
 
@@ -41,5 +45,10 @@ class Entity(pygame.sprite.DirtySprite):
 
         self.speed = (speed_x, new_speed_y)
 
-        self.pos = (pos_x + speed_x, pos_y + new_speed_y )
+
+    def update_pos(self, t):
+        speed_x, speed_y = self.speed
+        pos_x, pos_y = self.pos
+
+        self.pos = (pos_x + speed_x, pos_y + speed_y )
         self.rect.center = self.pos
