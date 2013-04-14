@@ -69,7 +69,7 @@ class App:
         self.entities = pygame.sprite.Group()
 
         self.create_ocean()
-        #self.create_whale()
+        self.create_whale()
 
         self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
 
