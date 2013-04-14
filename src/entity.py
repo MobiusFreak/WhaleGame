@@ -6,6 +6,7 @@ AIR_FRICTION = 0.1
 WATER_FRICTION = 0.2
 DEFAULT_FLOTABILITY = 2
 
+
 class Entity(pygame.sprite.DirtySprite):
     def __init__(self, Surface, pos = (0,0)):
         pygame.sprite.DirtySprite.__init__(self)
@@ -25,7 +26,6 @@ class Entity(pygame.sprite.DirtySprite):
     def update_speed(self, t):
         speed_x, speed_y = self.speed
         pos_x, pos_y = self.pos
-
         acc_y = 0
 
         if speed_y > 0:
@@ -37,7 +37,7 @@ class Entity(pygame.sprite.DirtySprite):
             acc_y -= self.flotability
             acc_y += friction * WATER_FRICTION * speed_y
         else: # in air
-            acc_y += friction * AIR_FRICTION * speed_y
+            acc_y += friction * AIR_FRICTION * speed_y 
 
         acc_y += GRAVITY
 
