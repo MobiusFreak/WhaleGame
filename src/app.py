@@ -1,6 +1,8 @@
 import pygame, sys
 from pygame.locals import *
 
+from whale import Whale
+
 FPS_LIMIT = 60
 
 
@@ -19,9 +21,9 @@ class App:
         width, height = size
         self.screen = pygame.display.set_mode(size)
         self.clock = pygame.time.Clock()
-        self.ocean = pygame.Surface((width, height / 2))
-        self.ocean.fill((0,0,200))
-        self.ocean_rect = pygame.Rect(0,height/2,width,height/2)
+
+        self.create_ocean()
+        self.create_whale()
 
         self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
 
@@ -43,13 +45,25 @@ class App:
     def process_events(self, t):
         for event in pygame.event.get():
             if self.callbacks.has_key(event.type):
-                if event.type == KEYDOWN or event.type == KEYUP:
-                    for call in self.callbacks[event.type][event.key]:
-                        call(t)
+                if (event.type == KEYDOWN or event.type == KEYUP):
+                    if self.callbacks[event.type].has_key(event.key):
+                        for call in self.callbacks[event.type][event.key]:
+                            call(t)
                 else:
                     for call in self.callbacks[event.type]:
                         call(t)
 
+
+    def create_ocean(self):
+        width, height = self.size
+
+        self.ocean = pygame.Surface((width, height / 2))
+        self.ocean.fill((0,0,200))
+        self.ocean_rect = pygame.Rect(0,height/2,width,height/2)
+
+    def create_whale(self):
+        width, height = self.size
+        self.mobius = pygame.sprite.Group(Whale(pos = (width/2, height/2)))
 
     def loop(self):
         screen = self.screen
@@ -61,6 +75,7 @@ class App:
 
         screen.fill((50,170,225))
         screen.blit(self.ocean, self.ocean_rect)
+        self.mobius.draw(screen)
 
         pygame.display.flip()
 
