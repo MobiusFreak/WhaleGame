@@ -31,7 +31,6 @@ class Whale(pygame.sprite.DirtySprite):
             pos = self.rect.center
             self.rect = self.image.get_rect()
             self.rect.center = pos
-            print "Rectangulo: ", self.rect.size
         if pressed[K_d]:
             self.angle -= self.ang_vel
             self.image = pygame.transform.rotate(self.image, -self.ang_vel)
