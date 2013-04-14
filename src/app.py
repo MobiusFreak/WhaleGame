@@ -15,12 +15,36 @@ class ExitListener:
         sys.exit()
 
 
+class Entity(pygame.sprite.DirtySprite):
+    def __init__(self, Surface, pos = (0,0), gravity = 1):
+        pygame.sprite.DirtySprite.__init__(self)
+
+        self.gravity = gravity
+        self.pos = pos
+
+        self.image = Surface
+        self.rect = self.image.get_rect()
+        self.rect.center = pos
+
+    def update(self, t):
+        pass
+        # x, y = self.rect.center
+        # newx = x
+        # newy = self.gravity * t * (300 - y) * 1e-2
+
+        # self.pos = (newx, newy)
+        # self.rect.center = self.pos
+
+
 class App:
     def __init__(self, size = (800, 600)):
         self.size = size
         width, height = size
         self.screen = pygame.display.set_mode(size)
         self.clock = pygame.time.Clock()
+
+        self.mobius = pygame.sprite.Group()
+        self.entities = pygame.sprite.Group()
 
         self.create_ocean()
         self.create_whale()
@@ -61,9 +85,16 @@ class App:
         self.ocean.fill((0,0,200))
         self.ocean_rect = pygame.Rect(0,height/2,width,height/2)
 
+
+        image = pygame.Surface((50, 50))
+        image.fill((200,0,0))
+        ent = Entity(image, pos = (400,500))
+        self.entities.add(ent)
+
+
     def create_whale(self):
         width, height = self.size
-        self.mobius = pygame.sprite.Group(Whale(pos = (width/2, height/2)))
+        self.mobius.add(Whale(pos = (width/2, height/2)))
 
     def loop(self):
         screen = self.screen
@@ -75,7 +106,13 @@ class App:
 
         screen.fill((50,170,225))
         screen.blit(self.ocean, self.ocean_rect)
+
+        self.mobius.update(t)
+        self.entities.update(t)
+
         self.mobius.draw(screen)
+        self.entities.draw(screen)
+
 
         pygame.display.flip()
 
