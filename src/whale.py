@@ -13,7 +13,7 @@ class Whale(Entity):
 
         self.direction = Vector(1,0)
         self.image = pygame.transform.rotozoom(self.mobius_img,
-                                               self.direction.alpha, 1)
+                                               self.direction.angle, 1)
 
         self.acc = acc
         self.mobius_img_center = [60, 45]
