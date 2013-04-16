@@ -27,6 +27,7 @@ class App:
         self.mobius = pygame.sprite.Group()
         self.entities = pygame.sprite.Group()
 
+        self.test_entities()
         self.create_ocean()
         self.create_whale()
 
@@ -35,10 +36,6 @@ class App:
         ExitListener(self)
 
         self.fps_t = 0
-
-    def start(self):
-        while self.loop():
-            pass
 
     def register_event(self, evt, call, key = None):
         if evt == KEYDOWN or evt == KEYUP:
@@ -69,6 +66,7 @@ class App:
         self.ocean_rect = pygame.Rect(0,height/2,width,height/2)
 
 
+    def test_entities(self):
         image = pygame.Surface((50, 50))
         image.fill((200,0,0))
         ent = Entity(image, pos = (725,500))
@@ -94,10 +92,16 @@ class App:
         width, height = self.size
         self.mobius.add(Whale(pos = (width/2, height/2)))
 
-    def loop(self):
-        screen = self.screen
-        size = self.size
+    def draw(self):
+        self.screen.fill((50,170,225))
+        self.screen.blit(self.ocean, self.ocean_rect, self.screen.get_rect())
 
+        self.entities.draw(self.screen)
+        self.mobius.draw(self.screen)
+
+        pygame.display.flip()
+
+    def update(self):
         t = self.clock.tick(FPS_LIMIT)
 
         self.fps_t += t
@@ -111,14 +115,17 @@ class App:
         self.mobius.update(t)
         self.entities.update(t)
 
-        # Display
-        screen.fill((50,170,225))
-        screen.blit(self.ocean, self.ocean_rect, screen.get_rect())
-
-        self.entities.draw(screen)
-        self.mobius.draw(screen)
-
-
-        pygame.display.flip()
-
         return True
+
+
+    def loop(self):
+        if self.update():
+            self.draw()
+            return True
+        else:
+            return False
+
+
+    def start(self):
+        while self.loop():
+            pass
