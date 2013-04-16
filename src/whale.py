@@ -7,9 +7,9 @@ from entity import *
 ANG_VEL = 2
 
 class Whale(Entity):
-    def __init__(self, size = [90,90], pos = Vector(0,0), acc = 2):
+    def __init__(self, size = [80,80], pos = Vector(0,0), acc = 2):
         mobius = pygame.image.load("../media/mobius.png").convert_alpha()
-        self.mobius_img = pygame.transform.smoothscale(mobius,(80, 80))
+        self.mobius_img = pygame.transform.smoothscale(mobius,size)
 
         self.direction = Vector(1,0)
         image = pygame.transform.rotozoom(self.mobius_img,
@@ -18,10 +18,10 @@ class Whale(Entity):
         Entity.__init__(self, image, pos)
 
         self.acc = acc
-        self.mobius_img_center = [60, 45]
 
-        self.rect = pygame.Rect (0,0,size[0],size[1])
+        self.rect = self.image.get_rect()
         self.rect.center = pos
+        self.rect.inflate_ip(-10,-10)
 
     def update(self, t):
         self.update_direction(t)

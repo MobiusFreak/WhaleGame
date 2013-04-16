@@ -130,15 +130,15 @@ class App:
 
         self.collisions(self.mobius,self.entities)
         self.collisions(self.entities,self.entities)
-        
+
         self.mobius.update(t)
         self.entities.update(t)
 
 
         return True
-    
+
     def collisions(self, group1, group2):
-        colldic = pygame.sprite.groupcollide(group1, group2,False,False)
+        colldic = pygame.sprite.groupcollide(group1, group2,False,False, collided = pygame.sprite.collide_mask)
         #print colldic.keys()
         for item in colldic:
             for entity in colldic[item]:

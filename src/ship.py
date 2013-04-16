@@ -9,6 +9,7 @@ class Ship(Entity):
         self.ship_img = pygame.transform.smoothscale(ship,size)
 
         Entity.__init__(self, self.ship_img, pos)
+        self.rect.inflate_ip(-10,-20)
 
 
     def update_pos(self, t):
