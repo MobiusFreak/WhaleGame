@@ -62,7 +62,7 @@ class App:
     def create_ocean(self):
         width, height = self.size
 
-        self.ocean = pygame.Surface((width, height / 2))
+        self.ocean = pygame.Surface((width, height))
         self.ocean.fill((0,0,200))
         self.ocean_rect = pygame.Rect(0,height/2,width,height/2)
 
@@ -99,11 +99,13 @@ class App:
         pos = self.mobius.sprites()[0].pos # mobius position
         pos -= Vector(width/2, height/2)
 
-        self.screen.fill((50,170,225))
-
-        dest = self.ocean_rect.copy()
-        dest.top -= pos[1]
-        self.screen.blit(self.ocean, dest, self.screen.get_rect())
+        if pos[1] > height/2: # bajo del maaaar
+            self.screen.fill((0,0,200))
+        else:
+            self.screen.fill((50,170,225))
+            dest = self.ocean_rect.copy()
+            dest.top -= pos[1]
+            self.screen.blit(self.ocean, dest, self.screen.get_rect())
 
         for entity in self.entities:
             dest = entity.rect.copy()
