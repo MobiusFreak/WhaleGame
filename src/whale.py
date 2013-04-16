@@ -1,4 +1,5 @@
 import pygame, math
+
 from pygame.locals import *
 
 from entity import *
@@ -36,9 +37,17 @@ class Whale(Entity):
         else:
             return
 
+        angle = self.direction.angle
+
+
+        image = self.mobius_img.copy()
+
+        if angle < 270 and angle > 90: # in water
+            image = pygame.transform.flip(self.mobius_img, False, True)
+
 
         pos = self.rect.center
-        self.image = pygame.transform.rotozoom(self.mobius_img,
+        self.image = pygame.transform.rotozoom(image,
                                                self.direction.angle, 1)
 
 
