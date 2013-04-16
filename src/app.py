@@ -1,7 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 
-from whale import Whale
+from whale import Whale, Whale2
 from entity import Entity
 from vector import Vector
 from ship import Ship
@@ -26,7 +26,7 @@ class App:
 
         self.clock = pygame.time.Clock()
 
-        self.mobius = pygame.sprite.Group()
+        self.whales = pygame.sprite.Group()
         self.entities = pygame.sprite.Group()
 
         self.test_entities()
@@ -62,58 +62,55 @@ class App:
 
     def create_ocean(self):
         width, height = self.size
-
         self.ocean = pygame.Surface((width, height))
         self.ocean.fill((0,0,200))
-        self.ocean_rect = pygame.Rect(0,height/2,width,height/2)
-
 
     def test_entities(self):
-        ent = Ship(pos = (725,500))
+        ent = Ship(pos = (725,-500))
         self.entities.add(ent)
 
         ent = Ship(pos = (450,50))
         self.entities.add(ent)
 
-        ent = Ship(pos = (125,250))
+        ent = Ship(pos = (125,-250))
         self.entities.add(ent)
 
-        ent = Ship(pos = (50,50))
+        ent = Ship(pos = (50,-50))
         self.entities.add(ent)
 
 
     def create_whale(self):
         width, height = self.size
-        self.mobius.add(Whale(pos = (width/2, height/2)))
+        self.whales.add(Whale(pos = (400,-200)))
+        self.whales.add(Whale2(pos = (400,100)))
 
     def draw(self):
         width, height = self.size
 
-        pos = self.mobius.sprites()[0].pos # mobius position
+        pos = self.whales.sprites()[0].pos # mobius position
+        pos += self.whales.sprites()[1].pos # mobius position
+        pos = pos * 0.5
         pos -= Vector(width/2, height/2)
 
-        if pos[1] > height/2: # bajo del maaaar
+        if pos.y > 0: # bajo del maaaar
             self.screen.fill((0,0,200))
         else:
             self.screen.fill((50,170,225))
-            dest = self.ocean_rect.copy()
-            dest.top -= pos[1]
+            dest = self.ocean.get_rect().copy()
+            dest.top -= pos.y
             self.screen.blit(self.ocean, dest, self.screen.get_rect())
 
         for entity in self.entities:
             dest = entity.rect.copy()
-            dest.left -= pos[0]
-            dest.top -= pos[1]
+            dest.left -= pos.x
+            dest.top -= pos.y
             self.screen.blit(entity.image, dest)
 
-        for whale in self.mobius:
+        for whale in self.whales:
             dest = whale.rect.copy()
-            dest.left -= pos[0]
-            dest.top -= pos[1]
+            dest.left -= pos.x
+            dest.top -= pos.y
             self.screen.blit(whale.image, dest)
-
-#        self.entities.draw(self.screen)
-#        self.mobius.draw(self.screen)
 
         pygame.display.flip()
 
@@ -128,10 +125,11 @@ class App:
 
         self.process_events(t)
 
-        self.collisions(self.mobius,self.entities)
+        self.collisions(self.whales,self.entities)
+        self.collisions(self.whales,self.whales)
         self.collisions(self.entities,self.entities)
 
-        self.mobius.update(t)
+        self.whales.update(t)
         self.entities.update(t)
 
 
@@ -140,13 +138,25 @@ class App:
     def collisions(self, group1, group2):
         colldic = pygame.sprite.groupcollide(group1, group2,False,False, collided = pygame.sprite.collide_mask)
         #print colldic.keys()
-        for item in colldic:
-            for entity in colldic[item]:
-                temp = item.speed
-                item.speed = entity.speed
-                entity.speed = temp
+        for A in colldic:
+            for B in colldic[A]:
+                A.speed, B.speed = B.speed, A.speed
                 if group1 == group2:
-                    colldic[entity].remove(item)
+                    colldic[B].remove(A)
+
+                # # Fix vertical overlap
+                # if A.rect.top > B.rect.bottom:
+                #     A.rect.top = B.rect.bottom
+                # else:
+                #     A.rect.bottom = B.rect.top
+
+                # # Fix horizontal overlap
+                # if A.rect.left > B.rect.right:
+                #     A.rect.left = B.rect.right
+                # else:
+                #     A.rect.right = B.rect.left
+
+
 
     def loop(self):
         if self.update():
@@ -160,4 +170,4 @@ class App:
         while self.loop():
             pass
 
-    
+

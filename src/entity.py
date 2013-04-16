@@ -34,13 +34,13 @@ class Entity(pygame.sprite.DirtySprite):
             self.rect.center = tuple(self.pos)
 
     def get_friction(self):
-        if self.pos.y > 300: # in water
+        if self.pos.y > 0: # in water
             return -1 * self.speed * WATER_FRICTION
         else: # in air
             return -1 * self.speed * AIR_FRICTION
 
     def get_floatability(self):
-        if self.pos.y > 300: # in water
+        if self.pos.y > 0: # in water
             return self.floatability
         else:
             return Vector(0,0)
