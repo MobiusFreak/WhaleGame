@@ -29,8 +29,8 @@ class Entity(pygame.sprite.DirtySprite):
         self.speed += self.get_acceleration() * t * 1e-2
 
     def update_pos(self, t):
-        self.pos += self.speed
-        if (self.pos - Vector(self.rect.center)).module > 0.1:
+        self.pos += self.speed * t * 0.05
+        if (self.pos - Vector(self.rect.center)).module > 1:
             self.rect.center = tuple(self.pos)
 
     def get_friction(self):

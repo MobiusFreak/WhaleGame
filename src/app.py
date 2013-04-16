@@ -19,7 +19,9 @@ class App:
     def __init__(self, size = (1024, 600)):
         self.size = size
         width, height = size
+
         self.screen = pygame.display.set_mode(size)
+
         self.clock = pygame.time.Clock()
 
         self.mobius = pygame.sprite.Group()
@@ -31,6 +33,8 @@ class App:
         self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
 
         ExitListener(self)
+
+        self.fps_t = 0
 
     def start(self):
         while self.loop():
@@ -96,16 +100,23 @@ class App:
 
         t = self.clock.tick(FPS_LIMIT)
 
-        self.process_events(t)
+        self.fps_t += t
 
-        screen.fill((50,170,225))
-        screen.blit(self.ocean, self.ocean_rect)
+        if self.fps_t > 1000:
+            print self.clock.get_fps(), "FPS"
+            self.fps_t = 0
+
+        self.process_events(t)
 
         self.mobius.update(t)
         self.entities.update(t)
 
-        self.mobius.draw(screen)
+        # Display
+        screen.fill((50,170,225))
+        screen.blit(self.ocean, self.ocean_rect, screen.get_rect())
+
         self.entities.draw(screen)
+        self.mobius.draw(screen)
 
 
         pygame.display.flip()

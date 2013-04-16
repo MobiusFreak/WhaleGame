@@ -7,13 +7,14 @@ ANG_VEL = 2
 
 class Whale(Entity):
     def __init__(self, size = [90,90], pos = Vector(0,0), acc = 2):
-        mobius = pygame.image.load("../media/mobius.png")
+        mobius = pygame.image.load("../media/mobius.png").convert_alpha()
         self.mobius_img = pygame.transform.smoothscale(mobius,(80, 80))
-        Entity.__init__(self, self.mobius_img, pos)
 
         self.direction = Vector(1,0)
-        self.image = pygame.transform.rotozoom(self.mobius_img,
-                                               self.direction.angle, 1)
+        image = pygame.transform.rotozoom(self.mobius_img,
+                                          self.direction.angle, 1)
+
+        Entity.__init__(self, image, pos)
 
         self.acc = acc
         self.mobius_img_center = [60, 45]
@@ -35,9 +36,11 @@ class Whale(Entity):
         else:
             return
 
+
         pos = self.rect.center
         self.image = pygame.transform.rotozoom(self.mobius_img,
                                                self.direction.angle, 1)
+
 
         self.rect = self.image.get_rect()
         self.rect.center = pos
