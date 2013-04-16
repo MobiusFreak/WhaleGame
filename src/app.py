@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import pygame, sys
 from pygame.locals import *
 
@@ -23,6 +25,15 @@ class App:
         width, height = size
 
         self.screen = pygame.display.set_mode(size)
+
+        # Icon and window title
+        pygame.display.set_caption("Mobius")
+
+        icon = pygame.image.load("../media/mobius.png").convert_alpha()
+        icon = pygame.transform.smoothscale(icon,(32,32))
+
+        pygame.display.set_icon(icon)
+
 
         self.clock = pygame.time.Clock()
 
@@ -119,7 +130,7 @@ class App:
 
         self.fps_t += t
 
-        if self.fps_t > 1000:
+        if self.fps_t > 5000:
             print self.clock.get_fps(), "FPS"
             self.fps_t = 0
 

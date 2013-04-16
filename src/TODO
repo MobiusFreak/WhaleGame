@@ -1,0 +1,7 @@
+-Añadir "cabeceras" a los ficheros de código fuente, que tengan como primera
+   línea -*- coding:utf-8 -*- para la codificación de caracteres, autores,
+   nombre y descripción del fichero...
+-Comentar el código
+-Añadir README según las especificaciones de PyWeek
+-Añadir alguna manera para seleccionar la resolución de pantalla
+
