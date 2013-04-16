@@ -3,6 +3,7 @@ from pygame.locals import *
 
 from whale import Whale
 from entity import Entity
+from vector import Vector
 
 FPS_LIMIT = 60
 
@@ -93,11 +94,31 @@ class App:
         self.mobius.add(Whale(pos = (width/2, height/2)))
 
     def draw(self):
-        self.screen.fill((50,170,225))
-        self.screen.blit(self.ocean, self.ocean_rect, self.screen.get_rect())
+        width, height = self.size
 
-        self.entities.draw(self.screen)
-        self.mobius.draw(self.screen)
+        pos = self.mobius.sprites()[0].pos # mobius position
+        pos -= Vector(width/2, height/2)
+
+        self.screen.fill((50,170,225))
+
+        dest = self.ocean_rect.copy()
+        dest.top -= pos[1]
+        self.screen.blit(self.ocean, dest, self.screen.get_rect())
+
+        for entity in self.entities:
+            dest = entity.rect.copy()
+            dest.left -= pos[0]
+            dest.top -= pos[1]
+            self.screen.blit(entity.image, dest)
+
+        for whale in self.mobius:
+            dest = whale.rect.copy()
+            dest.left -= pos[0]
+            dest.top -= pos[1]
+            self.screen.blit(whale.image, dest)
+
+#        self.entities.draw(self.screen)
+#        self.mobius.draw(self.screen)
 
         pygame.display.flip()
 
