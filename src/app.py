@@ -135,11 +135,25 @@ class App:
 
         self.process_events(t)
 
+        self.collisions(self.mobius,self.entities)
+        self.collisions(self.entities,self.entities)
+        
         self.mobius.update(t)
         self.entities.update(t)
 
-        return True
 
+        return True
+    
+    def collisions(self, group1, group2):
+        colldic = pygame.sprite.groupcollide(group1, group2,False,False)
+        #print colldic.keys()
+        for item in colldic:
+            for entity in colldic[item]:
+                temp = item.speed
+                item.speed = entity.speed
+                entity.speed = temp
+                if group1 == group2:
+                    colldic[entity].remove(item)
 
     def loop(self):
         if self.update():
@@ -152,3 +166,5 @@ class App:
     def start(self):
         while self.loop():
             pass
+
+    
