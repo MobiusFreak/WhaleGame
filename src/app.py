@@ -4,6 +4,7 @@ from pygame.locals import *
 from whale import Whale
 from entity import Entity
 from vector import Vector
+from ship import Ship
 
 FPS_LIMIT = 60
 
@@ -68,24 +69,16 @@ class App:
 
 
     def test_entities(self):
-        image = pygame.Surface((50, 50))
-        image.fill((200,0,0))
-        ent = Entity(image, pos = (725,500))
+        ent = Ship(pos = (725,500))
         self.entities.add(ent)
 
-        image = pygame.Surface((50, 50))
-        image.fill((0,200,0))
-        ent = Entity(image, pos = (450,50))
+        ent = Ship(pos = (450,50))
         self.entities.add(ent)
 
-        image = pygame.Surface((50, 50))
-        image.fill((0,0,0))
-        ent = Entity(image, pos = (125,250))
+        ent = Ship(pos = (125,250))
         self.entities.add(ent)
 
-        image = pygame.Surface((50, 50))
-        image.fill((255,0,255))
-        ent = Entity(image, pos = (50,350))
+        ent = Ship(pos = (50,50))
         self.entities.add(ent)
 
 
