@@ -3,7 +3,7 @@
 import pygame, sys
 from pygame.locals import *
 
-from whale import Whale, Whale2
+from whale import Whale
 from entity import Entity
 from vector import Vector
 from ship import Ship
@@ -41,8 +41,9 @@ class App:
         self.entities = pygame.sprite.Group()
 
         self.test_entities()
-        self.create_ocean()
-        self.create_whale()
+        self.create_whales()
+        self.ocean = pygame.Surface((width, height))
+        self.ocean.fill((0,0,200))
 
         self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
 
@@ -70,12 +71,6 @@ class App:
                     for call in self.callbacks[event.type]:
                         call(t)
 
-
-    def create_ocean(self):
-        width, height = self.size
-        self.ocean = pygame.Surface((width, height))
-        self.ocean.fill((0,0,200))
-
     def test_entities(self):
         ent = Ship(pos = (725,-500))
         self.entities.add(ent)
@@ -86,14 +81,17 @@ class App:
         ent = Ship(pos = (125,-250))
         self.entities.add(ent)
 
-        ent = Ship(pos = (50,-50))
+        img = pygame.surface.Surface((40,40), SRCALPHA)
+        pygame.draw.circle(img, (255,0,0), (20,20), 20)
+        pygame.draw.circle(img, (0,0,0), (20,20), 20, 2)
+        ent = Entity(img, pos = (0, -300))
         self.entities.add(ent)
 
 
-    def create_whale(self):
+    def create_whales(self):
         width, height = self.size
-        self.whales.add(Whale(pos = (400,-200)))
-        self.whales.add(Whale2(pos = (400,100)))
+        self.whales.add(Whale(pos = (300,-200)))
+        self.whales.add(Whale(pos = (400,100), player = 2))
 
     def draw(self):
         width, height = self.size
@@ -103,10 +101,14 @@ class App:
         pos = pos * 0.5
         pos -= Vector(width/2, height/2)
 
+        width, height = self.size
+
         if pos.y > 0: # bajo del maaaar
-            self.screen.fill((0,0,200))
+            color = 200 - pos.y * 0.1
+            if color < 0: color = 0
+            self.screen.fill((0,0,color))
         else:
-            self.screen.fill((50,170,225))
+            self.screen.fill((50,170, 225))
             dest = self.ocean.get_rect().copy()
             dest.top -= pos.y
             self.screen.blit(self.ocean, dest, self.screen.get_rect())
