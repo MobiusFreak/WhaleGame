@@ -23,7 +23,6 @@ class Whale(Entity):
 
         self.acc = acc
 
-
         self.rect = self.image.get_rect()
         self.rect.center = pos
         self.rect.inflate_ip(-10,-10)

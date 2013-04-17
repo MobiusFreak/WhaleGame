@@ -11,7 +11,7 @@ class Ship(Entity):
         Entity.__init__(self, self.ship_img, pos)
         self.rect.inflate_ip(-10,-20)
 
-
     def update_pos(self, t):
         Entity.update_pos(self, t)
         self.rect.top -= 20
+

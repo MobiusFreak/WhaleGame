@@ -1,6 +1,6 @@
 import pygame, sys
 from pygame.locals import *
-from vector import Vector
+from utils import Vector
 
 AIR_FRICTION = 0.1
 WATER_FRICTION = 0.2

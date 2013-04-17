@@ -3,10 +3,8 @@
 import pygame, sys
 from pygame.locals import *
 
-from whale import Whale
-from entity import Entity
-from vector import Vector
-from ship import Ship
+from utils import Vector
+from game import TestGame
 
 FPS_LIMIT = 60
 
@@ -20,7 +18,21 @@ class ExitListener:
 
 
 class App:
-    def __init__(self, size = (1024, 600)):
+    def __init__(self, size = (1024, 600), game = TestGame()):
+        self.init_display(size)
+
+        self.clock = pygame.time.Clock()
+
+        self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
+
+        ExitListener(self)
+
+        self.fps_t = 0
+
+        self.game = game
+        self.game.init(self)
+
+    def init_display(self, size):
         self.size = size
         width, height = size
 
@@ -34,22 +46,6 @@ class App:
 
         pygame.display.set_icon(icon)
 
-
-        self.clock = pygame.time.Clock()
-
-        self.whales = pygame.sprite.Group()
-        self.entities = pygame.sprite.Group()
-
-        self.test_entities()
-        self.create_whales()
-        self.ocean = pygame.Surface((width, height))
-        self.ocean.fill((0,0,200))
-
-        self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
-
-        ExitListener(self)
-
-        self.fps_t = 0
 
     def register_event(self, evt, call, key = None):
         if evt == KEYDOWN or evt == KEYUP:
@@ -71,59 +67,10 @@ class App:
                     for call in self.callbacks[event.type]:
                         call(t)
 
-    def test_entities(self):
-        ent = Ship(pos = (725,-500))
-        self.entities.add(ent)
-
-        ent = Ship(pos = (450,50))
-        self.entities.add(ent)
-
-        ent = Ship(pos = (125,-250))
-        self.entities.add(ent)
-
-        img = pygame.surface.Surface((40,40), SRCALPHA)
-        pygame.draw.circle(img, (255,0,0), (20,20), 20)
-        pygame.draw.circle(img, (0,0,0), (20,20), 20, 2)
-        ent = Entity(img, pos = (0, -300))
-        self.entities.add(ent)
-
-
-    def create_whales(self):
-        width, height = self.size
-        self.whales.add(Whale(pos = (300,-200)))
-        self.whales.add(Whale(pos = (400,100), player = 2))
-
     def draw(self):
         width, height = self.size
 
-        pos = self.whales.sprites()[0].pos # mobius position
-        pos += self.whales.sprites()[1].pos # mobius position
-        pos = pos * 0.5
-        pos -= Vector(width/2, height/2)
-
-        width, height = self.size
-
-        if pos.y > 0: # bajo del maaaar
-            color = 200 - pos.y * 0.1
-            if color < 0: color = 0
-            self.screen.fill((0,0,color))
-        else:
-            self.screen.fill((50,170, 225))
-            dest = self.ocean.get_rect().copy()
-            dest.top -= pos.y
-            self.screen.blit(self.ocean, dest, self.screen.get_rect())
-
-        for entity in self.entities:
-            dest = entity.rect.copy()
-            dest.left -= pos.x
-            dest.top -= pos.y
-            self.screen.blit(entity.image, dest)
-
-        for whale in self.whales:
-            dest = whale.rect.copy()
-            dest.left -= pos.x
-            dest.top -= pos.y
-            self.screen.blit(whale.image, dest)
+        self.game.draw(self.screen)
 
         pygame.display.flip()
 
@@ -138,38 +85,9 @@ class App:
 
         self.process_events(t)
 
-        self.collisions(self.whales,self.entities)
-        self.collisions(self.whales,self.whales)
-        self.collisions(self.entities,self.entities)
-
-        self.whales.update(t)
-        self.entities.update(t)
-
+        self.game.update(t)
 
         return True
-
-    def collisions(self, group1, group2):
-        colldic = pygame.sprite.groupcollide(group1, group2,False,False, collided = pygame.sprite.collide_mask)
-        #print colldic.keys()
-        for A in colldic:
-            for B in colldic[A]:
-                A.speed, B.speed = B.speed, A.speed
-                if group1 == group2:
-                    colldic[B].remove(A)
-
-                # # Fix vertical overlap
-                # if A.rect.top > B.rect.bottom:
-                #     A.rect.top = B.rect.bottom
-                # else:
-                #     A.rect.bottom = B.rect.top
-
-                # # Fix horizontal overlap
-                # if A.rect.left > B.rect.right:
-                #     A.rect.left = B.rect.right
-                # else:
-                #     A.rect.right = B.rect.left
-
-
 
     def loop(self):
         if self.update():
