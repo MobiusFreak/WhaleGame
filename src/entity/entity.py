@@ -9,9 +9,9 @@ V_GRAVITY = Vector(0, 1)
 V_DEFAULT_FLOATABILITY = Vector(0, -2)
 
 
-class Entity(pygame.sprite.DirtySprite):
+class Entity(pygame.sprite.Sprite):
     def __init__(self, Surface, pos = (0,0)):
-        pygame.sprite.DirtySprite.__init__(self)
+        pygame.sprite.Sprite.__init__(self)
 
         self.floatability = V_DEFAULT_FLOATABILITY
         self.pos = Vector(pos)

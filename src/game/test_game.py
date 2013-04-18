@@ -1,4 +1,4 @@
-from entity import Entity, Whale, Ship
+from entity import Entity, Whale, Ship, Ball
 
 from game import *
 from utils import Vector
@@ -18,19 +18,16 @@ class TestGame(Game):
 
 
     def test_entities(self):
-        ent = Ship(pos = (725,-500))
+        ent = Ball(color = (255,255,0), pos = (725,-500))
         self.entities.add(ent)
 
-        ent = Ship(pos = (450,50))
+        ent = Ball(color = (0,255,0), pos = (500,500))
+        self.entities.add(ent)
+
+        ent = Ball(color = (255,0,0), pos = (450,50))
         self.entities.add(ent)
 
         ent = Ship(pos = (125,-250))
-        self.entities.add(ent)
-
-        img = pygame.surface.Surface((40,40), SRCALPHA)
-        pygame.draw.circle(img, (255,0,0), (20,20), 20)
-        pygame.draw.circle(img, (0,0,0), (20,20), 20, 2)
-        ent = Entity(img, pos = (0, -300))
         self.entities.add(ent)
 
 
