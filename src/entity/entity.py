@@ -21,6 +21,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = tuple(pos)
 
+
     def update(self, t):
         self.update_speed(t)
         self.update_pos(t)
@@ -30,6 +31,9 @@ class Entity(pygame.sprite.Sprite):
 
     def update_pos(self, t):
         self.pos += self.speed * t * 0.05
+        self.update_rect()
+
+    def update_rect(self):
         if (self.pos - Vector(self.rect.center)).module > 1:
             self.rect.center = tuple(self.pos)
 
