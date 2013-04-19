@@ -1,11 +1,15 @@
 from entity import Entity, Whale, Ship, Ball
 
-from game import *
+from pygame.locals import *
+
+import pygame
+
+from game import BaseGame
 from utils import Vector
 
-class TestGame(Game):
+class TestGame(BaseGame):
     def init(self, App):
-        Game.init(self, App)
+        BaseGame.init(self, App)
 
         self.whales = pygame.sprite.Group()
         self.entities = pygame.sprite.Group()
@@ -80,3 +84,6 @@ class TestGame(Game):
         self.entities.update(t)
 
         return True
+
+    def exit(self):
+        pass

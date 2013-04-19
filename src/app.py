@@ -4,27 +4,20 @@ import pygame, sys
 from pygame.locals import *
 
 from game import TestGame
+from game import Menu
 
 FPS_LIMIT = 60
 
-class ExitListener:
-    def __init__(self, App):
-        App.register_event(QUIT, self.salir)
-        App.register_event(KEYDOWN, self.salir, key = K_ESCAPE)
-
-    def salir(self, t):
-        sys.exit()
-
-
 class App:
-    def __init__(self, size = (1024, 600), game = TestGame()):
+    def __init__(self, size = (1024, 600), game = Menu()):
         self.init_display(size)
 
         self.clock = pygame.time.Clock()
 
         self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
 
-        ExitListener(self)
+        self.register_event(QUIT, self.salir)
+        self.register_event(KEYDOWN, self.escape, key = K_ESCAPE)
 
         self.fps_t = 0
 
@@ -54,6 +47,20 @@ class App:
                 self.callbacks[evt][key]=[call]
         else:
             self.callbacks[evt].append(call)
+
+    def unregister_event(self, evt, call, key = None):
+        if evt == KEYDOWN or evt == KEYUP:
+            if self.callbacks[evt].has_key(key):
+                if call in self.callbacks[evt][key]:
+                    self.callbacks[evt][key].remove(call)
+        else:
+            if call in self.callbacks[evt]:
+                self.callbacks[evt].remove(call)
+
+    def change_game(self,game):
+        self.game.exit()
+        self.game = game
+        self.game.init(self)
 
     def process_events(self, t):
         for event in pygame.event.get():
@@ -100,4 +107,11 @@ class App:
         while self.loop():
             pass
 
+    def salir(self, t):
+        sys.exit()
 
+    def escape(self, t):
+        if isinstance(self.game, Menu):
+            self.salir(t)
+        else:
+            self.change_game(Menu())
