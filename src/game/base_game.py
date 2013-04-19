@@ -28,7 +28,9 @@ class BaseGame(object):
                         B.update_rect()
 
                     # TODO: MAAASAAAA
+
                     A.speed, B.speed = B.speed, A.speed
+                    A.angular_speed, B.angular_speed = -B.angular_speed, -A.angular_speed
 
                 if group1 == group2:
                     colldic[B].remove(A)

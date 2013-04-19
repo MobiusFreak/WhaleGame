@@ -29,7 +29,7 @@ class Vector(object):
 
     def __mul__(self, other):
         if isinstance(other, Vector):
-            return NotImplemented
+            return self.x * other.x + self.y * other.y
         else:
             return Vector(self.x * other, self.y * other)
 
