@@ -11,7 +11,7 @@ class Game(object):
     def draw(self, screen):
         pass
 
-    def collisions(self, group1, group2, t):
+    def collisions(self, group1, group2):
         colldic = pygame.sprite.groupcollide(group1, group2,False,False,
                                            collided = pygame.sprite.collide_mask)
         for A in colldic:
