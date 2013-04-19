@@ -20,7 +20,7 @@ class Entity(pygame.sprite.Sprite):
         self.image = Surface
         self.rect = self.image.get_rect()
         self.rect.center = tuple(pos)
-
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, t):
         self.update_speed(t)

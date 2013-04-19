@@ -3,7 +3,6 @@
 import pygame, sys
 from pygame.locals import *
 
-from utils import Vector
 from game import TestGame
 
 FPS_LIMIT = 60
@@ -80,7 +79,7 @@ class App:
         self.fps_t += t
 
         if self.fps_t > 5000:
-            print self.clock.get_fps(), "FPS"
+            print int(self.clock.get_fps()), "FPS"
             self.fps_t = 0
 
         self.process_events(t)

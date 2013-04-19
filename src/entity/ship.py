@@ -13,5 +13,4 @@ class Ship(Entity):
 
     def update_pos(self, t):
         Entity.update_pos(self, t)
-        self.rect.top -= 20
 

@@ -41,19 +41,19 @@ class TestGame(Game):
         width, height = screen.get_size()
 
         pos = Vector(0,0)
+
         for whale in self.whales.sprites():
             pos += whale.pos
-
         pos = pos * (1. / len(self.whales.sprites()))
 
         pos -= Vector(width/2, height/2)
 
-        if pos.y > 0: # bajo del maaaar
-            color = 200 - pos.y * 0.1
-            if color < 0: color = 0
+        if pos.y > 0: # bajo el maaaar
+            color = 200 - pos.y * 0.2
+            if color < 20: color = 20
             screen.fill((0,0,color))
         else:
-            screen.fill((50,170, 225))
+            screen.fill((50,170,225))
             dest = self.ocean.get_rect().copy()
             dest.top -= pos.y
             screen.blit(self.ocean, dest, screen.get_rect())
@@ -78,6 +78,5 @@ class TestGame(Game):
 
         self.whales.update(t)
         self.entities.update(t)
-
 
         return True

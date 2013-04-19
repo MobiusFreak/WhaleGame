@@ -63,7 +63,7 @@ class Whale(Entity):
         self.image = pygame.transform.rotozoom(image,
                                                self.direction.angle, 1)
 
-
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.center = pos
 
