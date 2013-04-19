@@ -5,7 +5,7 @@ from utils import Vector
 
 COLLISION_THRESHOLD = 0.01
 
-class Game(object):
+class BaseGame(object):
     def init(self, App):
         self.app = App
 
@@ -32,3 +32,6 @@ class Game(object):
 
                 if group1 == group2:
                     colldic[B].remove(A)
+
+    def exit(self):
+        pass
