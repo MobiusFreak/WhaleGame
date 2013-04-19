@@ -42,6 +42,8 @@ class App:
         self.game = game
         self.game.init(self)
 
+
+    # TODO: should be in utils.callbacks?
     def process_events(self, t):
         for event in pygame.event.get():
             if callbacks.has_key(event.type):

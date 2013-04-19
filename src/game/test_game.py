@@ -1,4 +1,4 @@
-from entity import Entity, Whale, Ship, Ball
+from entity import Entity, Whale, Ship, Ball, ModifierEntity
 
 from pygame.locals import *
 
@@ -13,12 +13,13 @@ class TestGame(BaseGame):
 
         self.whales = pygame.sprite.Group()
         self.entities = pygame.sprite.Group()
+        self.modifiers = pygame.sprite.Group()
 
         self.ocean = pygame.Surface(App.screen.get_size())
         self.ocean.fill((0,0,200))
 
-        self.test_entities()
         self.create_whales()
+        self.test_entities()
 
 
     def test_entities(self):
@@ -31,8 +32,11 @@ class TestGame(BaseGame):
         ent = Ball(color = (255,0,0), pos = (450,50))
         self.entities.add(ent)
 
-        ent = Ship(pos = (125,-250))
+        ent = Ship(pos = (125,-250), whales = self.whales.sprites())
         self.entities.add(ent)
+
+        ent = ModifierEntity(pos = (600,0))
+        self.modifiers.add(ent)
 
 
     def create_whales(self):
@@ -74,14 +78,32 @@ class TestGame(BaseGame):
             dest.top -= pos.y
             screen.blit(whale.image, dest)
 
+        for modifier in self.modifiers:
+            dest = modifier.rect.copy()
+            dest.left -= pos.x
+            dest.top -= pos.y
+            screen.blit(modifier.image, dest)
+
 
     def update(self, t):
         self.collisions(self.whales,self.entities)
         self.collisions(self.whales,self.whales)
         self.collisions(self.entities,self.entities)
+        self.collisions(self.entities,self.modifiers)
+
+
+        # Modifiers
+        colldic = pygame.sprite.groupcollide(self.whales, self.modifiers, False, True)
+
+        for Entity in colldic:
+            for ModifierEntity in colldic[Entity]:
+                mod = ModifierEntity.modifier
+                Entity.modifiers.append(mod)
+                mod.init(Entity)
 
         self.whales.update(t)
         self.entities.update(t)
+        self.modifiers.update(t)
 
         return True
 
