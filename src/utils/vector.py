@@ -39,6 +39,9 @@ class Vector(object):
     def __repr__(self):
         return "<" + str(self.x) + ", " + str(self.y) + ">"
 
+    def __neg__(self):
+        return -1 * self
+
     def get_module(self):
         return self.__module
 
