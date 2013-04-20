@@ -1,4 +1,4 @@
-from entity import Entity, Whale, WoodShip, Ball, ModifierEntity, Destructor
+from entity import Entity, Whale, WoodShip, MetalShip, Ball, ModifierEntity, Destructor
 from game import WhaleGame
 
 class TestGame(WhaleGame):
@@ -20,6 +20,6 @@ class TestGame(WhaleGame):
         self.entities.add(ent)
         self.enemies.add(ent)
 
-        ent = Destructor(pos = (-400,0))
+        ent = MetalShip(pos = (-400,0))
         self.entities.add(ent)
         self.enemies.add(ent)

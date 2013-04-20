@@ -236,10 +236,9 @@ class WhaleGame(BaseGame):
             self.projectiles.remove(projectile)
 
     def kill_entity(self, entity):
-        for group in self.groups:
-            if not entity.dead:
-                entity.die()
-            group.remove(entity)
+        if not entity.dead:
+            entity.die()
+        entity.kill()
 
 
 
