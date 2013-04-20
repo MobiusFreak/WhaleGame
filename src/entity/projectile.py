@@ -12,12 +12,12 @@ REORIENTATION_ACCELERATION = 1
 class Projectile(Entity):
     def __init__(self, Surface, pos = (0,0), direction = (0,0),
                  speed = (0,0), friction = 0.2, damage = 10,
-                 shooter = None):
+                 density = 0.91, shooter = None):
 
         self.damage = damage
         self.shooter = shooter
         Entity.__init__(self, Surface, pos = pos, direction = direction,
-                        speed = speed, friction = 0.2)
+                        speed = speed, density = density, friction = 0.2)
 
 
     def update_angular_acceleration(self, t):
