@@ -1,7 +1,7 @@
 from pygame.locals import *
 import pygame
 
-from game import BaseGame, TestGame
+from game import BaseGame, TestGame, Survival
 from utils.callbacks import *
 
 from utils import Vector
@@ -74,9 +74,24 @@ class Menu(BaseGame):
                                 (0,0,100))
         self.screen.blit(text, self.dest, self.screen.get_rect())
 
+        self.dest.top += self.font.get_linesize()
+
+        text = self.font.render("2 - Surwhaleval", True,
+                                (0,0,100))
+        self.screen.blit(text, self.dest, self.screen.get_rect())
+
+
         register_event(KEYDOWN, self.select_test_game , K_1)
+        register_event(KEYDOWN, self.select_survival , K_2)
 
     def select_test_game(self):
         unregister_event(KEYDOWN, self.select_test_game , K_1)
+        unregister_event(KEYDOWN, self.select_survival , K_2)
         game = TestGame(self.players)
+        self.app.change_game(game)
+
+    def select_survival(self):
+        unregister_event(KEYDOWN, self.select_test_game , K_1)
+        unregister_event(KEYDOWN, self.select_survival , K_2)
+        game = Survival(self.players)
         self.app.change_game(game)
