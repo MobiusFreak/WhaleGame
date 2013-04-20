@@ -22,13 +22,20 @@ class Survival(WhaleGame):
             self.cooldown -= t
         return WhaleGame.update(self, t)
 
-    def create_ship(self,level = 1):
+    def create_ship(self, level = 1):
         width, heigth = self.app.screen.get_size()
-        desp = randint(0,width)
+
+        screen_x = self.screen_pos(self.app.screen).x
+
+        desp = randint(0, width)
         if desp <= width/2:
             desp -= width
         else:
             desp += width
+
+        desp += screen_x
         ship = Ship(pos = Vector(desp,0), acc = 2,
                     whales = self.whales.sprites())
+
+        self.enemies.add(ship)
         self.entities.add(ship)

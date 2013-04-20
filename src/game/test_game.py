@@ -18,6 +18,7 @@ class TestGame(WhaleGame):
 
         ent = Ship(pos = (-100,0), whales = self.whales.sprites())
         self.entities.add(ent)
+        self.enemies.add(ent)
 
         ent = ModifierEntity(pos = (600,0))
         self.modifiers.add(ent)

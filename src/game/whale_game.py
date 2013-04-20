@@ -29,7 +29,7 @@ class WhaleGame(BaseGame):
                        self.entities,
                        self.modifiers,
                        self.projectiles]
-        self.draw_health_entities = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
 
         self.ocean = pygame.Surface(App.screen.get_size())
         self.ocean.fill((0,0,200))
@@ -56,6 +56,8 @@ class WhaleGame(BaseGame):
         # Draw HUD
         self.draw_whales(screen, pos)
         self.draw_health_whale(screen, pos)
+        self.draw_health_entities(screen, pos)
+
         # TODO: draw modifiers
 
 
@@ -70,6 +72,21 @@ class WhaleGame(BaseGame):
         pos -= Vector(width/2, height/2 + VIEW_CENTER_Y_OFFSET * height)
 
         return pos
+
+    def draw_health_entities(self, screen, pos):
+        for entity in self.enemies:
+            if entity.health > 0 and entity.health < entity.max_health:
+                bar = pygame.surface.Surface((entity.health, 5))
+
+                bar.fill((255,0,0))
+                rect = bar.get_rect()
+
+                rect.center = entity.rect.center
+                rect.bottom = entity.rect.top
+                rect.left -= pos.x
+                rect.top -= pos.y
+
+                screen.blit(bar, rect)
 
     def draw_ocean(self, screen, pos):
         if pos.y > 0: # bajo el maaaar
@@ -109,7 +126,6 @@ class WhaleGame(BaseGame):
 
 
             screen.blit(bar, rect)
-
 
     def draw_whales(self, screen, pos):
         width, height = screen.get_size()
