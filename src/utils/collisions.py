@@ -1,5 +1,8 @@
 import pygame, math
 from pygame.locals import *
+from entity import *
+
+import sound
 
 COLLISION_THRESHOLD = 0.01
 COLLISION_DAMAGE = 1
@@ -88,7 +91,27 @@ def collisions(group1, group2, kill1 = False, kill2 = False, function = damage_s
     for A in colldic:
         for B in colldic[A]:
             if A != B:
+                sound_collision(A, B)
                 function(A, B)
             if group1 == group2:
                 colldic[B].remove(A)
 
+def sound_collision(A, B):
+    if isinstance(A, Whale):
+        if isinstance (B, Whale):
+            sound.play("ouch")
+        elif isinstance (B, Ship):
+            sound.play("au")
+        elif isinstance (B, ModifierEntity):
+            sound.play("nom")
+        elif isinstance (B, Projectile):
+            sound.play("au")
+    elif isinstance (A, Ship):
+        if isinstance (B, Whale):
+            sound.play("au")
+    elif isinstance (A, ModifierEntity):
+        if isinstance (B, Whale):
+            sound.play("nom")
+    elif isinstance (A, Projectile):
+        if isinstance (B, Whale):
+            sound.play("au")
