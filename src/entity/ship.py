@@ -4,7 +4,6 @@ from pygame.locals import *
 from random import randint
 
 from entity import *
-from projectile import *
 from modifier import ShootingModifier
 
 import app
@@ -15,16 +14,18 @@ SHIP_ACC = 5
 DAMAGE_UNDER_WATER = 5 # per second
 
 class Ship(Entity):
-    def __init__(self, Surface, *args, **kargs):
+    def __init__(self, Surface, projectile = None, *args, **kargs):
         Entity.__init__(self, Surface, *args, **kargs)
 
         game = app.get_current_game()
         self.whales = game.whales.sprites()
 
         self.objective = self.whales[0]
-        mod = ShootingModifier(Harpoon)
-        mod.init(self)
-        self.modifiers.append(mod)
+
+        if projectile:
+            mod = ShootingModifier(projectile)
+            mod.init(self)
+            self.modifiers.append(mod)
 
 
     def update(self, t):

@@ -38,6 +38,11 @@ class Harpoon(Projectile):
         img = pygame.image.load("../media/harpoon.png").convert_alpha()
         Projectile.__init__(self, img, *args, **kargs)
 
+class Missile(Projectile):
+    def __init__(self, *args, **kargs):
+        img = pygame.image.load("../media/missile.png").convert_alpha()
+        Projectile.__init__(self, img, *args, **kargs)
+
 
 
 def shoot(shooter, Projectile, pos, direction, speed = 5):
