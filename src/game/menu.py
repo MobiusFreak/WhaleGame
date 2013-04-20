@@ -129,20 +129,15 @@ class Menu(BaseGame):
         register_event(KEYDOWN, self.select_survival , K_1)
 
     def select_test_game(self):
-        unregister_event(KEYDOWN, self.select_test_game , K_1)
-        unregister_event(KEYDOWN, self.select_survival , K_2)
         game = TestGame(self.players)
         self.app.change_game(game)
 
     def select_survival(self):
-        unregister_event(KEYDOWN, self.select_test_game , K_1)
-        unregister_event(KEYDOWN, self.select_survival , K_2)
         game = Survival(self.players)
         self.app.change_game(game)
 
     def exit(self):
-        unregister_event(KEYDOWN, self.select_test_game , K_1)
-        unregister_event(KEYDOWN, self.select_survival , K_2)
+        unregister_event(KEYDOWN, self.select_survival , K_1)
         unregister_event(KEYDOWN, self.select_1_player , K_1)
         unregister_event(KEYDOWN, self.select_2_players , K_2)
         unregister_event(KEYDOWN, self.open_help, K_h)
