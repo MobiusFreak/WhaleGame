@@ -23,14 +23,18 @@ Sound: Audacity
 HOW TU RUN THE GAME
 ===================
 
+1. Open a Linux Terminal.
+2. Then execute the "src/main.py" in order to run the game.
+3. We have added a "help screen" to the main one that summarizes the keys you need to use to play with your whale. In order to access to this screen just press the "h" key.
+
+
 DEPENDENCIES
 ============
+
+Pygame, Python 2.7 (maybe less)
+
 
 LICENSE OF THE GAME
 ===================
 
 GNUGPLv3
-
-
-
-## A PLUG FOR THE CHALLENGE ##
