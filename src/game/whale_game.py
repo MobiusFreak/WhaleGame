@@ -237,8 +237,11 @@ class WhaleGame(BaseGame):
 
     def kill_entity(self, entity):
         for group in self.groups:
-            entity.die()
+            if not entity.dead:
+                entity.die()
             group.remove(entity)
+
+
 
 def set_modifier(entity, modifier_entity):
     mod = modifier_entity.modifier
