@@ -37,7 +37,6 @@ class WhaleGame(BaseGame):
         width, height = screen.get_size()
 
         pos = Vector(0,0)
-
         for whale in self.whales.sprites():
             pos += whale.pos
         pos = pos * (1. / len(self.whales.sprites()))
@@ -45,6 +44,19 @@ class WhaleGame(BaseGame):
         pos -= Vector(width/2, height/2)
 
         # Draw the ocean
+        self.draw_ocean(screen, pos)
+
+        # Draw entities
+        self.draw_group(screen, pos, self.entities)
+        self.draw_group(screen, pos, self.modifiers)
+        self.draw_group(screen, pos, self.projectiles)
+
+        # Draw HUD
+        self.draw_indicators(screen, pos)
+        self.draw_health(screen, pos)
+        # TODO: draw modifiers
+
+    def draw_ocean(self, screen, pos):
         if pos.y > 0: # bajo el maaaar
             color = 200 - pos.y * 0.2
             if color < 20: color = 20
@@ -55,12 +67,37 @@ class WhaleGame(BaseGame):
             dest.top -= pos.y
             screen.blit(self.ocean, dest, screen.get_rect())
 
+    def draw_health(self, screen, pos):
+        width, height = screen.get_size()
 
-        # Draw entities
-        self.draw_group(screen, pos, self.entities)
-        self.draw_group(screen, pos, self.modifiers)
-        self.draw_group(screen, pos, self.projectiles)
+        colors = [(200,0,0,200), (0,200,0,200), (0,200,200,200)]
+        # TODO: player attribute?
+        for whale in self.whales:
+            i = whale.player -1
+            color = colors[i % len(colors)]
 
+            bar = pygame.surface.Surface((100, 20), SRCALPHA)
+
+            health_rect = bar.get_rect()
+            health_rect.left = 2
+            health_rect.right = whale.health - 2
+            pygame.draw.rect(bar, color, health_rect)
+            pygame.draw.rect(bar, (200,200,200), bar.get_rect(), 3)
+
+            rect = bar.get_rect()
+            if i % 2 == 1: # right
+                rect.right = width - 10
+                rect.bottom = height - (10 + 20 * (i / 2))
+            else: # left
+                rect.left = 10
+                rect.bottom = height - (10 + 20 * (i / 2))
+
+
+            screen.blit(bar, rect)
+
+
+    def draw_indicators(self, screen, pos):
+        width, height = screen.get_size()
         for whale in self.whales:
             dest = whale.rect.copy()
             dest.left -= pos.x

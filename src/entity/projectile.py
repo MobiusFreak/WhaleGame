@@ -23,12 +23,13 @@ class Harpoon(Projectile):
 
 
 
-def shoot(shooter, Projectile, pos, direction, speed = 1):
+def shoot(shooter, Projectile, pos, direction, speed = 5):
     direction.module = 1
     pos += direction
 
     ent = Projectile(pos = pos, direction = direction,
                      speed = direction * speed, shooter = shooter)
+
     game = app.get_current_game()
     game.projectiles.add(ent)
 

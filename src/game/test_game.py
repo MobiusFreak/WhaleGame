@@ -16,7 +16,7 @@ class TestGame(WhaleGame):
         ent = Ball(color = (255,0,0), pos = (450,50))
         self.entities.add(ent)
 
-        ent = Ship(pos = (125,-250), whales = self.whales.sprites())
+        ent = Ship(pos = (-100,0), whales = self.whales.sprites())
         self.entities.add(ent)
 
         ent = ModifierEntity(pos = (600,0))

@@ -35,7 +35,7 @@ class SpeedModifier(Modifier):
 # Ship modifiers
 class HarpoonModifier(Modifier):
     def init(self, entity):
-        self.cooldown = 0
+        self.cooldown = 3000
 
     def update(self, t, ship):
         if self.cooldown > 0:

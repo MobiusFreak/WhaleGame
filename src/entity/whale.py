@@ -21,6 +21,7 @@ class Whale(Entity):
 
         self.whale_acceleration = acc
 
+        self.player = player
         if player == 1:
             self.key_acc = K_w
             self.key_left = K_a
