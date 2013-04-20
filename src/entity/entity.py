@@ -43,6 +43,10 @@ class Entity(pygame.sprite.Sprite):
         self.angular_acceleration = angular_acceleration
 
 
+        # Modifiers
+        self.modifiers = []
+
+
     def update_rect(self):
         if (self.pos - Vector(self.rect.center)).module > 1:
             self.rect.center = tuple(self.pos)
@@ -73,6 +77,9 @@ class Entity(pygame.sprite.Sprite):
         self.update_angular_acceleration(t)
         self.update_angular_speed(t)
         self.update_angle(t)
+
+        for modifier in self.modifiers:
+            modifier.update(t, self)
 
 
     def update_acceleration(self, t):

@@ -3,6 +3,7 @@
 import pygame, sys
 from pygame.locals import *
 
+from utils.callbacks import *
 from game import TestGame
 from game import Menu
 
@@ -14,12 +15,12 @@ class App:
 
         self.clock = pygame.time.Clock()
 
-        self.callbacks = {KEYDOWN : {}, KEYUP : {}, QUIT : []}
-
-        self.register_event(QUIT, self.salir)
-        self.register_event(KEYDOWN, self.escape, key = K_ESCAPE)
+        register_event(QUIT, self.salir)
+        register_event(KEYDOWN, self.escape, key = K_ESCAPE)
 
         self.fps_t = 0
+        self.font = pygame.font.Font("../media/font/VeraMono.ttf", 20)
+        self.fps_surface = self.font.render("? FPS", True, (0,0,0))
 
         self.game = game
         self.game.init(self)
@@ -38,45 +39,29 @@ class App:
 
         pygame.display.set_icon(icon)
 
-
-    def register_event(self, evt, call, key = None):
-        if evt == KEYDOWN or evt == KEYUP:
-            if self.callbacks[evt].has_key(key):
-                self.callbacks[evt][key].append(call)
-            else:
-                self.callbacks[evt][key]=[call]
-        else:
-            self.callbacks[evt].append(call)
-
-    def unregister_event(self, evt, call, key = None):
-        if evt == KEYDOWN or evt == KEYUP:
-            if self.callbacks[evt].has_key(key):
-                if call in self.callbacks[evt][key]:
-                    self.callbacks[evt][key].remove(call)
-        else:
-            if call in self.callbacks[evt]:
-                self.callbacks[evt].remove(call)
-
     def change_game(self,game):
         self.game.exit()
         self.game = game
         self.game.init(self)
 
+
+    # TODO: should be in utils.callbacks?
     def process_events(self, t):
         for event in pygame.event.get():
-            if self.callbacks.has_key(event.type):
+            if callbacks.has_key(event.type):
                 if (event.type == KEYDOWN or event.type == KEYUP):
-                    if self.callbacks[event.type].has_key(event.key):
-                        for call in self.callbacks[event.type][event.key]:
+                    if callbacks[event.type].has_key(event.key):
+                        for call in callbacks[event.type][event.key]:
                             call(t)
                 else:
-                    for call in self.callbacks[event.type]:
+                    for call in callbacks[event.type]:
                         call(t)
 
     def draw(self):
         width, height = self.size
 
         self.game.draw(self.screen)
+        self.screen.blit(self.fps_surface, self.fps_surface.get_rect())
 
         pygame.display.flip()
 
@@ -85,12 +70,12 @@ class App:
 
         self.fps_t += t
 
-        if self.fps_t > 5000:
-            print int(self.clock.get_fps()), "FPS"
+        if self.fps_t > 1000:
+            self.fps_surface = self.font.render(str(int(self.clock.get_fps())) + " FPS", True, (0,0,0))
             self.fps_t = 0
 
-        self.process_events(t)
 
+        self.process_events(t)
         self.game.update(t)
 
         return True
