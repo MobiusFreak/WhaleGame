@@ -31,7 +31,8 @@ HOW TU RUN THE GAME
 DEPENDENCIES
 ============
 
-Pygame, Python 2.7 (maybe less)
+Pygame (http://www.pygame.org/download.shtml)
+Python 2.7 (maybe less)
 
 
 LICENSE OF THE GAME
