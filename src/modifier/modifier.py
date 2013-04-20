@@ -30,3 +30,9 @@ class SpeedModifier(Modifier):
     def update(self, t, entity):
         entity.pos += entity.speed * self.speed
 
+class HealModifier(Modifier):
+    def __init__(self, hp = 40):
+        self.hp = hp
+
+    def init(self, entity):
+        entity.heal(self.hp)
