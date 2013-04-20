@@ -39,7 +39,7 @@ if __name__ == "__main__":
     sound.init()
 
     pygame.mixer.music.load("../media/music.mp3")
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(-1)
 
 

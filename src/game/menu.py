@@ -25,6 +25,9 @@ class Menu(BaseGame):
         self.app.change_game(HelpScreen())
 
     def draw_window(self):
+        width, height = self.app.screen.get_size()
+
+
         button = pygame.Surface((500, 500))
         button.fill((0,200,200))
         self.screen.fill((200,100,0))
@@ -42,7 +45,6 @@ class Menu(BaseGame):
         self.dest.top += self.font.get_linesize()
         text = self.font.render("Press 'h' for help", True, (0,000,0))
         dest = text.get_rect()
-        width, height = self.app.screen.get_size()
         dest.bottom = height
         dest.right = width
         self.screen.blit(text, dest, self.screen.get_rect())
@@ -56,6 +58,22 @@ class Menu(BaseGame):
         dest.left = 0
         self.screen.blit(text, dest, self.screen.get_rect())
 
+
+        # mobius = pygame.image.load("../media/mobius.png").convert_alpha()
+        # mobius2 = pygame.image.load("../media/mobius2.png").convert_alpha()
+        # mobius = pygame.transform.smoothscale(mobius,(90,90))
+        # mobius2 = pygame.transform.smoothscale(mobius2,(90,90))
+        # mobius2 = pygame.transform.flip(mobius2,True,False)
+
+        # rect = mobius.get_rect()
+        # rect.top = 0
+        # rect.left = 0
+        # self.screen.blit(mobius, rect)
+
+        # rect = mobius2.get_rect()
+        # rect.top = 0
+        # rect.right = width
+        # self.screen.blit(mobius2, rect)
 
     # Player selection
     def draw_select_player_screen(self):
