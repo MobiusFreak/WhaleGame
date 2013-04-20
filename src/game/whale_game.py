@@ -203,7 +203,7 @@ class WhaleGame(BaseGame):
 
     def draw_score(self,screen, pos):
         width, height = screen.get_size()
-        score_surface = self.font.render(str(int(self.score)) + " POINTS", True, (255,255,255))
+        score_surface = self.font.render("SCORE: " + str(int(self.score)), True, (255,255,255))
         score_rect = score_surface.get_rect()
         score_rect.right = width
         screen.blit(score_surface, score_rect)
