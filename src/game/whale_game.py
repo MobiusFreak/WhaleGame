@@ -17,6 +17,7 @@ class WhaleGame(BaseGame):
         self.players = players
         self.game_over = False
         self.score = 0
+        self.font = pygame.font.Font("../media/font/VeraMono.ttf", 20)
 
     def init(self, App):
         BaseGame.init(self, App)
@@ -57,6 +58,7 @@ class WhaleGame(BaseGame):
         self.draw_whales(screen, pos)
         self.draw_health_whale(screen, pos)
         self.draw_health_entities(screen, pos)
+        self.draw_score(screen, pos)
 
         # TODO: draw modifiers
 
@@ -198,6 +200,15 @@ class WhaleGame(BaseGame):
             screen.blit(indicator, indicator_rect)
 
 
+
+    def draw_score(self,screen, pos):
+        width, height = screen.get_size()
+        score_surface = self.font.render(str(int(self.score)) + " POINTS", True, (255,255,255))
+        score_rect = score_surface.get_rect()
+        score_rect.right = width
+        screen.blit(score_surface, score_rect)
+
+
     def update(self, t):
         collisions(self.whales, self.modifiers, kill2 = True, function = set_modifier)
 #        collisions(self.entities, self.modifiers, kill2 = True, function = set_modifier)
@@ -226,8 +237,11 @@ class WhaleGame(BaseGame):
 
     def kill_entity(self, entity):
         for group in self.groups:
-            entity.die()
+            if not entity.dead:
+                entity.die()
             group.remove(entity)
+
+
 
 def set_modifier(entity, modifier_entity):
     mod = modifier_entity.modifier

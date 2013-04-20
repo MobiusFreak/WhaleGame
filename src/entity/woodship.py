@@ -1,6 +1,7 @@
 import pygame, math
 from pygame.locals import *
 
+from modifier_entity import *
 from ship import Ship
 from projectile import *
 
@@ -14,3 +15,11 @@ class WoodShip(Ship):
 
 
         Ship.__init__(self, WoodShip.img, projectile = Harpoon, health = 40, *args, **kargs)
+
+
+    def die(self):
+        game = app.get_current_game()
+        ent = HealModifierEntity(pos = self.pos)
+        game.modifiers.add(ent)
+
+        Ship.die(self)
