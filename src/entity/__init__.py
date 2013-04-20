@@ -5,4 +5,4 @@ from woodship import *
 from destructor import *
 from ball import *
 from modifier_entity import *
-
+from metalship import *

@@ -11,7 +11,7 @@ class Survival(WhaleGame):
     def __init__(self, players):
         WhaleGame.__init__(self, players)
         self.difficulty = 0
-        self.cooldown = MIN_COOLDOWNor
+        self.cooldown = MIN_COOLDOWN
 
 
     def update(self, t):
