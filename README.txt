@@ -25,7 +25,7 @@ HOW TU RUN THE GAME
 
 1. Open a Linux Terminal.
 2. Then execute the "src/main.py" in order to run the game.
-3. We have added a "help screen" to the main one that summarizes the keys you need to use to play with your whale. In order to access to this screen just press the "h" key.
+3. We have added a "help screen" to the main one that summarizes the keys you need to use to play with your whale. In order to access to this screen just press the "h" key. Then just use the number keys to select the options in the menu.
 
 
 DEPENDENCIES
