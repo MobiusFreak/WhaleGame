@@ -85,4 +85,25 @@ class Vector(object):
         else:
             raise IndexError
 
+    def normalize(self):
+        if self.module == 0:
+            return Vector(0,0)
+        return self * (1/self.module) 
 
+    def project(self, other):
+        if isinstance(other, Vector):
+            return (self * (other.normalize())) * (other.normalize())
+        else:
+            return NotImplemented
+
+    def orthogonal(self, direction):
+        if direction:
+            return Vector(-self.y,self.x)
+        else:
+            return Vector(self.y,-self.x)
+        
+    def orientation(self,other):
+        if isinstance(other,Vector):
+            return self.x * other.y - self.y * other.x
+        else:
+            return NotImplemented
