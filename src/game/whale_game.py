@@ -8,6 +8,9 @@ from utils import Vector
 from utils.collisions import *
 
 
+Y_LIMIT = 5000
+VIEW_CENTER_Y_OFFSET = 0.1
+
 class WhaleGame(BaseGame):
     def __init__(self, players = 2):
         BaseGame.__init__(self)
@@ -26,6 +29,7 @@ class WhaleGame(BaseGame):
                        self.entities,
                        self.modifiers,
                        self.projectiles]
+        self.draw_health_entities = pygame.sprite.Group()
 
         self.ocean = pygame.Surface(App.screen.get_size())
         self.ocean.fill((0,0,200))
@@ -37,17 +41,11 @@ class WhaleGame(BaseGame):
         for i in range(1, self.players+1):
             self.whales.add(Whale(pos = (100*i,-200), player = i))
 
+        self.whales.sprites()[0].max_health = 200
 
     # TODO: center view above whales?
     def draw(self, screen):
-        width, height = screen.get_size()
-
-        pos = Vector(0,0)
-        for whale in self.whales.sprites():
-            pos += whale.pos
-        pos = pos * (1. / len(self.whales.sprites()))
-
-        pos -= Vector(width/2, height/2)
+        pos = screen_pos(screen)
 
         # Draw the ocean
         self.draw_ocean(screen, pos)
@@ -59,8 +57,21 @@ class WhaleGame(BaseGame):
 
         # Draw HUD
         self.draw_whales(screen, pos)
-        self.draw_health(screen, pos)
+        self.draw_health_whale(screen, pos)
         # TODO: draw modifiers
+
+
+    def screen_pos(self, screen):
+        width, height = screen.get_size()
+
+        pos = Vector(0,0)
+        for whale in self.whales.sprites():
+            pos += whale.pos
+        pos = pos * (1. / len(self.whales.sprites()))
+
+        pos -= Vector(width/2, height/2 + VIEW_CENTER_Y_OFFSET * height)
+
+        return pos
 
     def draw_ocean(self, screen, pos):
         if pos.y > 0: # bajo el maaaar
@@ -73,7 +84,7 @@ class WhaleGame(BaseGame):
             dest.top -= pos.y
             screen.blit(self.ocean, dest, screen.get_rect())
 
-    def draw_health(self, screen, pos):
+    def draw_health_whale(self, screen, pos):
         width, height = screen.get_size()
 
         colors = [(200,0,0,200), (0,200,0,200), (0,200,200,200)]
@@ -82,7 +93,7 @@ class WhaleGame(BaseGame):
             i = whale.player -1
             color = colors[i % len(colors)]
 
-            bar = pygame.surface.Surface((100, 20), SRCALPHA)
+            bar = pygame.surface.Surface((whale.max_health, 20), SRCALPHA)
 
             health_rect = bar.get_rect()
             health_rect.left = 2
@@ -115,12 +126,16 @@ class WhaleGame(BaseGame):
                dest.top > height or dest.bottom < 0:
                 self.draw_whale_indicator(screen, pos, whale)
 
+    # No whales allowed here
     def draw_group(self, screen, pos, group):
         for sprite in group:
-            dest = sprite.rect.copy()
-            dest.left -= pos.x
-            dest.top -= pos.y
-            screen.blit(sprite.image, dest)
+            if sprite.pos.y > Y_LIMIT:
+                self.kill_entity(sprite)
+            else:
+                dest = sprite.rect.copy()
+                dest.left -= pos.x
+                dest.top -= pos.y
+                screen.blit(sprite.image, dest)
 
 
     def draw_whale_indicator(self, screen, pos, whale):

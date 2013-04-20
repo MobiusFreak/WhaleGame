@@ -21,6 +21,7 @@ class Entity(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
 
+        self.max_health = health
         self.health = health
 
         self.pos = Vector(pos)
@@ -144,6 +145,11 @@ class Entity(pygame.sprite.Sprite):
         if self.health <= 0:
             game = app.get_current_game()
             game.kill_entity(self)
+
+    def health(self, diff, source = None):
+        self.health += diff
+        if self.health > self.max_health:
+            self.health = self.max_health
 
     def die(self):
         pass
