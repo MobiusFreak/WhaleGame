@@ -32,10 +32,6 @@ class Whale(Entity):
             self.key_right = K_RIGHT
 
 
-    def update(self, t):
-        Entity.update(self, t)
-
-
     def update_acceleration(self, t):
         pressed = pygame.key.get_pressed()
 

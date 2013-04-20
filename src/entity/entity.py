@@ -88,9 +88,11 @@ class Entity(pygame.sprite.Sprite):
         self.update_angular_speed(t)
         self.update_angle(t)
 
+        self.update_modifiers(t)
+
+    def update_modifiers(self, t):
         for modifier in self.modifiers:
             modifier.update(t, self)
-
 
     def update_acceleration(self, t):
         self.acceleration = V_GRAVITY + self.friction_vector() + self.floatability_vector()
@@ -142,11 +144,11 @@ class Entity(pygame.sprite.Sprite):
 
     def damage(self, diff, source = None):
         self.health -= diff
-        if self.health <= 0:
+        if self.health < 1:
             game = app.get_current_game()
             game.kill_entity(self)
 
-    def health(self, diff, source = None):
+    def heal(self, diff, source = None):
         self.health += diff
         if self.health > self.max_health:
             self.health = self.max_health
