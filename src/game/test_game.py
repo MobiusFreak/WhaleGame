@@ -85,6 +85,61 @@ class TestGame(BaseGame):
             screen.blit(modifier.image, dest)
 
 
+        for whale in self.whales.sprites():
+            dest = whale.rect.copy()
+            dest.left -= pos.x
+            dest.top -= pos.y
+
+            if dest.right < 0 or dest.left > width or dest.top > height or dest.bottom < 0:
+                self.draw_whale_indicator(screen, pos, whale)
+
+
+    def draw_whale_indicator(self, screen, pos, whale):
+            width, height = screen.get_size()
+            orig_rect = whale.original_image.get_rect()
+            diagonal = Vector(orig_rect.topleft) - Vector(orig_rect.bottomright)
+            side = int(diagonal.module)
+            radius = side / 2
+
+            indicator_rect = pygame.Rect(0,0,side,side)
+            indicator = pygame.surface.Surface((side,side), SRCALPHA)
+            pygame.draw.circle(indicator, (255,0,0),
+                               (side/2,side/2),
+                               radius, 3)
+
+            dest = whale.rect.copy()
+            dest.center = indicator_rect.center
+            indicator.blit(whale.image, dest)
+
+
+            # TODO: size depends on the distance
+            # screen_center = pos + Vector(width/2, height/2)
+            # distance = (whale.pos - screen_center).module
+
+            # scaled_size = int(60 / (distance / height))
+
+            # indicator = pygame.transform.smoothscale(indicator,
+            #                                      [scaled_size,scaled_size])
+            # indicator_rect = indicator.get_rect()
+
+            dest = whale.rect.copy()
+            dest.left -= pos.x
+            dest.top -= pos.y
+
+            indicator_rect.center = dest.center
+
+            if dest.right < 0:
+                indicator_rect.left = 0
+            elif dest.left > width:
+                indicator_rect.right = width
+            if dest.top > height:
+                indicator_rect.bottom = height
+            elif dest.bottom < 0:
+                indicator_rect.top = 0
+
+            screen.blit(indicator, indicator_rect)
+
+
     def update(self, t):
         self.collisions(self.whales,self.entities)
         self.collisions(self.whales,self.whales)
