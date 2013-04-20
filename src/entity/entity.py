@@ -8,6 +8,7 @@ WATER_FRICTION = 0.15
 V_GRAVITY = Vector(0, 0.5)
 DEFAULT_DENSITY = 0.8
 
+
 class Entity(pygame.sprite.Sprite):
     def __init__(self, Surface, pos = (0,0),
                  mass = None, speed = (0,0),
