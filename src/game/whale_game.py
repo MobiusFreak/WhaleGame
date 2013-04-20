@@ -18,6 +18,7 @@ class WhaleGame(BaseGame):
         self.whales = pygame.sprite.Group()
         self.entities = pygame.sprite.Group()
         self.modifiers = pygame.sprite.Group()
+        self.projectiles = pygame.sprite.Group()
 
         self.ocean = pygame.Surface(App.screen.get_size())
         self.ocean.fill((0,0,200))
@@ -30,6 +31,7 @@ class WhaleGame(BaseGame):
             self.whales.add(Whale(pos = (100*i,-200), player = i))
 
 
+    # TODO: center view above whales?
     def draw(self, screen):
         width, height = screen.get_size()
 
@@ -41,6 +43,7 @@ class WhaleGame(BaseGame):
 
         pos -= Vector(width/2, height/2)
 
+        # Draw the ocean
         if pos.y > 0: # bajo el maaaar
             color = 200 - pos.y * 0.2
             if color < 20: color = 20
@@ -51,32 +54,29 @@ class WhaleGame(BaseGame):
             dest.top -= pos.y
             screen.blit(self.ocean, dest, screen.get_rect())
 
-        for entity in self.entities:
-            dest = entity.rect.copy()
-            dest.left -= pos.x
-            dest.top -= pos.y
-            screen.blit(entity.image, dest)
+
+        # Draw entities
+        self.draw_group(screen, pos, self.entities)
+        self.draw_group(screen, pos, self.modifiers)
+        self.draw_group(screen, pos, self.projectiles)
 
         for whale in self.whales:
             dest = whale.rect.copy()
             dest.left -= pos.x
             dest.top -= pos.y
+
             screen.blit(whale.image, dest)
 
-        for modifier in self.modifiers:
-            dest = modifier.rect.copy()
-            dest.left -= pos.x
-            dest.top -= pos.y
-            screen.blit(modifier.image, dest)
-
-
-        for whale in self.whales.sprites():
-            dest = whale.rect.copy()
-            dest.left -= pos.x
-            dest.top -= pos.y
-
-            if dest.right < 0 or dest.left > width or dest.top > height or dest.bottom < 0:
+            if dest.right < 0 or dest.left > width or \
+               dest.top > height or dest.bottom < 0:
                 self.draw_whale_indicator(screen, pos, whale)
+
+    def draw_group(self, screen, pos, group):
+        for sprite in group:
+            dest = sprite.rect.copy()
+            dest.left -= pos.x
+            dest.top -= pos.y
+            screen.blit(sprite.image, dest)
 
 
     def draw_whale_indicator(self, screen, pos, whale):
@@ -141,9 +141,18 @@ class WhaleGame(BaseGame):
                 Entity.modifiers.append(mod)
                 mod.init(Entity)
 
+        # Projectiles
+        colldic = pygame.sprite.groupcollide(self.whales, self.projectiles, False, True)
+
+        for whale in colldic:
+            for projectile in colldic[whale]:
+                whale.health -= projectile.damage
+                # TODO: ha mueto?
+
         self.whales.update(t)
         self.entities.update(t)
         self.modifiers.update(t)
+        self.projectiles.update(t)
 
         return True
 

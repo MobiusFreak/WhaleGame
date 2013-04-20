@@ -12,9 +12,12 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, Surface, pos = (0,0),
                  mass = None, speed = (0,0),
                  direction = (1,0), angular_speed = 0,
-                 acceleration = (0,0), angular_acceleration = 0):
+                 acceleration = (0,0), angular_acceleration = 0,
+                 health = 100, density = DEFAULT_DENSITY, friction = 1):
 
         pygame.sprite.Sprite.__init__(self)
+
+        self.health = health
 
         self.pos = Vector(pos)
         self.speed = Vector(speed)
@@ -35,13 +38,14 @@ class Entity(pygame.sprite.Sprite):
             self.mass = mass
             self.density = float(self.mass) / volume
         else:
-            self.mass = 0.8 * volume
-            self.density = 0.8
+            self.mass = density * volume
+            self.density = density
+
+        self.friction = friction
 
         # Default value is 0
         self.acceleration = Vector(acceleration)
         self.angular_acceleration = angular_acceleration
-
 
         # Modifiers
         self.modifiers = []
@@ -107,9 +111,9 @@ class Entity(pygame.sprite.Sprite):
     def friction_vector(self):
         # TODO: it should depend on the amount of pixels in the water
         if self.pos.y > 0: # in water
-            friction = WATER_FRICTION
+            friction = WATER_FRICTION * self.friction
         else:              # in air
-            friction = AIR_FRICTION
+            friction = AIR_FRICTION * self.friction
 
         return -self.speed * friction
 

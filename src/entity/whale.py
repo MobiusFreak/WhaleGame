@@ -31,6 +31,11 @@ class Whale(Entity):
             self.key_right = K_RIGHT
 
 
+    def update(self, t):
+        Entity.update(self, t)
+        if self.health < 0:
+            print "He mueto"
+
     def update_acceleration(self, t):
         pressed = pygame.key.get_pressed()
 

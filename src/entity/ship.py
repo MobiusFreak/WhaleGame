@@ -1,7 +1,10 @@
 import pygame, math
 from pygame.locals import *
 
+from random import randint
+
 from entity import *
+from modifier import HarpoonModifier
 
 ANG_ACC = 2
 SHIP_ACC = 5
@@ -17,7 +20,10 @@ class Ship(Entity):
         self.rect.inflate_ip(-10,-20)
 
         self.whales = whales
-
+        self.objective = whales[randint(0,len(whales)-1)]
+        mod = HarpoonModifier()
+        mod.init(self)
+        self.modifiers.append(mod)
 
     def update_angular_acceleration(self, t):
         pressed = pygame.key.get_pressed()
@@ -39,5 +45,5 @@ class Ship(Entity):
         angle = self.direction.angle
         if angle > 250 or angle < 110:
             if self.pos.y + self.rect.height / 2 > 0:
-                direction = (self.whales[0].pos - self.pos).x * 1e-3
+                direction = (self.objective.pos - self.pos).x * 1e-3
                 self.speed += Vector(SHIP_ACC, 0) * direction * (t * 1e-3)

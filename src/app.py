@@ -9,6 +9,13 @@ from game import Menu
 
 FPS_LIMIT = 60
 
+current_game = None
+
+def get_current_game():
+    global current_game
+    return current_game
+
+
 class App:
     def __init__(self, size = (1024, 600), game = Menu()):
         self.init_display(size)
@@ -21,6 +28,9 @@ class App:
         self.fps_t = 0
         self.font = pygame.font.Font("../media/font/VeraMono.ttf", 20)
         self.fps_surface = self.font.render("? FPS", True, (0,0,0))
+
+        global current_game
+        current_game = game
 
         self.game = game
         self.game.init(self)
@@ -40,6 +50,8 @@ class App:
         pygame.display.set_icon(icon)
 
     def change_game(self,game):
+        global current_game
+        current_game = game
         self.game.exit()
         self.game = game
         self.game.init(self)
