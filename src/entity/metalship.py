@@ -4,7 +4,7 @@ from pygame.locals import *
 from projectile import Harpoon
 from ship import Ship
 from modifier_entity import *
-from random import randrange
+from random import random
 import app
 
 class MetalShip(Ship):
@@ -19,7 +19,7 @@ class MetalShip(Ship):
 
     def die(self):
         game = app.get_current_game()
-        num = randrange(0,1)
+        num = random()
         if num > 0.8:
             ent = SpeedModifierEntity(pos = self.pos)
             game.modifiers.add(ent)

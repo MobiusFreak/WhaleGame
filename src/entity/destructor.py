@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from ship import Ship
 from projectile import *
-from random import randrange
+from random import random
 from modifier_entity import *
 import app
 
@@ -23,7 +23,7 @@ class Destructor(Ship):
 
     def die(self):
         game = app.get_current_game()
-        num = randrange(0,1)
+        num = random()
         if num > 0.9:
             ent = SpeedModifierEntity(pos = self.pos)
             game.modifiers.add(ent)
