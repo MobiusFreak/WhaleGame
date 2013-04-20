@@ -8,7 +8,6 @@ import sound
 
 REORIENTATION_ACCELERATION = 1
 
-# TODO: ajustar el vector direccion al vector velocidad
 class Projectile(Entity):
     def __init__(self, Surface, pos = (0,0), direction = (0,0),
                  speed = (0,0), friction = 0.2, damage = 10,
