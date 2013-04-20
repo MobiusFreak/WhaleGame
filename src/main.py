@@ -1,12 +1,13 @@
+#!/usr/bin/python
 #     Name of the program: Mobius - Description: a game about a whale that has to wreck every ship
 #     Copyright (C) 2013
-#     
+#
 #     Authors:
 #     Daniel 'akathorn' Espino <akathorn@gmail.com>
 #     Carlos 'Qvent' Garcia <supermegaluigi@gmail.com>
 #     Isaac 'mio85' Sánchez <isr_92@hotmail.com>
 #     Marcos 'sneaky' Sebastián <gatojazz92@gmail.com>
-#     
+#
 
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -20,8 +21,6 @@
 
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#!/usr/bin/python
 
 
 import pygame, sys
