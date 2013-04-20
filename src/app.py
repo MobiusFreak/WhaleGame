@@ -52,10 +52,10 @@ class App:
                 if (event.type == KEYDOWN or event.type == KEYUP):
                     if callbacks[event.type].has_key(event.key):
                         for call in callbacks[event.type][event.key]:
-                            call(t)
+                            call()
                 else:
                     for call in callbacks[event.type]:
-                        call(t)
+                        call()
 
     def draw(self):
         width, height = self.size
@@ -92,11 +92,11 @@ class App:
         while self.loop():
             pass
 
-    def salir(self, t):
+    def salir(self):
         sys.exit()
 
-    def escape(self, t):
+    def escape(self):
         if isinstance(self.game, Menu):
-            self.salir(t)
+            self.salir()
         else:
             self.change_game(Menu())
