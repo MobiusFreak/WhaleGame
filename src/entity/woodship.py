@@ -4,7 +4,8 @@ from pygame.locals import *
 from modifier_entity import *
 from ship import Ship
 from projectile import *
-
+from random import randrange
+import app
 
 class WoodShip(Ship):
     img = None
@@ -16,10 +17,11 @@ class WoodShip(Ship):
 
         Ship.__init__(self, WoodShip.img, projectile = Harpoon, health = 40, *args, **kargs)
 
-
     def die(self):
         game = app.get_current_game()
-        ent = HealModifierEntity(pos = self.pos)
-        game.modifiers.add(ent)
+        num = randrange(0,1)
+        if num > 0.3:
+            ent = HealModifierEntity(pos = self.pos)
+            game.modifiers.add(ent)
 
         Ship.die(self)
