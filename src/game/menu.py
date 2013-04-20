@@ -45,7 +45,6 @@ class Menu(BaseGame):
         width, height = self.app.screen.get_size()
         dest.bottom = height
         dest.right = width
-        print dest
         self.screen.blit(text, dest, self.screen.get_rect())
 
 
@@ -55,7 +54,6 @@ class Menu(BaseGame):
         width, height = self.app.screen.get_size()
         dest.bottom = height
         dest.left = 0
-        print dest
         self.screen.blit(text, dest, self.screen.get_rect())
 
 
@@ -199,5 +197,4 @@ class HelpScreen(BaseGame):
         width, height = self.app.screen.get_size()
         dest.bottom = height
         dest.left = 0
-        print dest
         self.screen.blit(text, dest, self.screen.get_rect())

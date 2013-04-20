@@ -42,7 +42,6 @@ class WhaleGame(BaseGame):
         for i in range(1, self.players+1):
             self.whales.add(Whale(pos = (100*i,-200), player = i))
 
-    # TODO: center view above whales?
     def draw(self, screen):
         pos = self.screen_pos(screen)
 
@@ -105,7 +104,7 @@ class WhaleGame(BaseGame):
         width, height = screen.get_size()
 
         colors = [(200,0,0,200), (0,200,0,200), (0,200,200,200)]
-        # TODO: player attribute?
+
         for whale in self.whales:
             i = whale.player -1
             color = colors[i % len(colors)]
