@@ -41,11 +41,9 @@ class WhaleGame(BaseGame):
         for i in range(1, self.players+1):
             self.whales.add(Whale(pos = (100*i,-200), player = i))
 
-        self.whales.sprites()[0].max_health = 200
-
     # TODO: center view above whales?
     def draw(self, screen):
-        pos = screen_pos(screen)
+        pos = self.screen_pos(screen)
 
         # Draw the ocean
         self.draw_ocean(screen, pos)
