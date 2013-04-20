@@ -54,6 +54,7 @@ class Entity(pygame.sprite.Sprite):
 
         # Modifiers
         self.modifiers = []
+        self.dead = False
 
 
     def update_rect(self):
@@ -154,4 +155,4 @@ class Entity(pygame.sprite.Sprite):
             self.health = self.max_health
 
     def die(self):
-        pass
+        self.dead = True

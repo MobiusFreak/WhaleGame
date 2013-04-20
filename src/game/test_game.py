@@ -23,6 +23,3 @@ class TestGame(WhaleGame):
         ent = Destructor(pos = (-400,0))
         self.entities.add(ent)
         self.enemies.add(ent)
-
-        ent = ModifierEntity(pos = (600,0))
-        self.modifiers.add(ent)
