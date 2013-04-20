@@ -33,6 +33,9 @@ class Vector(object):
         else:
             return Vector(self.x * other, self.y * other)
 
+    def __div__(self, other):
+        return self * (1. / other)
+
     def __rmul__(self, other):
         return self.__mul__(other)
 

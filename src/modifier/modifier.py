@@ -2,6 +2,9 @@ import pygame, math
 from pygame.locals import *
 
 from entity import *
+from utils.collisions import *
+
+from entity import Harpoon, shoot
 
 import app
 
@@ -39,17 +42,8 @@ class HarpoonModifier(Modifier):
             self.cooldown -= t
         else:
             objective = ship.objective
-
             direction = objective.pos - ship.pos
-            direction.module = 1
 
-            # TODO: este cambio de coordenadas es una mierda
-            img_direction = Vector(direction.x, -direction.y)
-
-            ent = Harpoon(pos = ship.pos, direction = img_direction,
-                          speed = direction * 5)
-
-            game = app.get_current_game()
-            game.projectiles.add(ent)
+            shoot(ship, Harpoon, ship.pos, direction)
 
             self.cooldown = 2000

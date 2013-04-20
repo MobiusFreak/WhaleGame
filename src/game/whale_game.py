@@ -1,11 +1,12 @@
 from entity import Entity, Whale, Ship, Ball, ModifierEntity
 
 from pygame.locals import *
-
 import pygame
 
 from game import BaseGame
 from utils import Vector
+from utils.collisions import *
+
 
 class WhaleGame(BaseGame):
     def __init__(self, players = 2):
@@ -126,28 +127,16 @@ class WhaleGame(BaseGame):
 
 
     def update(self, t):
-        self.collisions(self.whales,self.entities)
-        self.collisions(self.whales,self.whales)
-        self.collisions(self.entities,self.entities)
-        self.collisions(self.entities,self.modifiers)
+        collisions(self.whales, self.modifiers, kill2 = True, function = set_modifier)
+#        collisions(self.entities, self.modifiers, kill2 = True, function = set_modifier)
+        collisions(self.entities, self.projectiles, function = self.projectile_hit)
+        collisions(self.whales, self.projectiles, function = self.projectile_hit)
 
+        collisions(self.whales, self.entities)
+        collisions(self.whales, self.whales)
+        collisions(self.entities, self.entities)
+        collisions(self.entities, self.modifiers)
 
-        # Modifiers
-        colldic = pygame.sprite.groupcollide(self.whales, self.modifiers, False, True)
-
-        for Entity in colldic:
-            for ModifierEntity in colldic[Entity]:
-                mod = ModifierEntity.modifier
-                Entity.modifiers.append(mod)
-                mod.init(Entity)
-
-        # Projectiles
-        colldic = pygame.sprite.groupcollide(self.whales, self.projectiles, False, True)
-
-        for whale in colldic:
-            for projectile in colldic[whale]:
-                whale.health -= projectile.damage
-                # TODO: ha mueto?
 
         self.whales.update(t)
         self.entities.update(t)
@@ -158,3 +147,16 @@ class WhaleGame(BaseGame):
 
     def exit(self):
         pass
+
+
+    def projectile_hit(self, entity, projectile):
+        if entity != projectile.shooter:
+            entity.health -= projectile.damage
+            self.projectiles.remove(projectile)
+
+
+def set_modifier(entity, modifier_entity):
+    mod = modifier_entity.modifier
+    entity.modifiers.append(mod)
+    mod.init(entity)
+
