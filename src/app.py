@@ -51,8 +51,9 @@ class App:
 
     def change_game(self,game):
         global current_game
-        current_game = game
         self.game.exit()
+        current_game = game
+
         self.game = game
         self.game.init(self)
 
@@ -73,18 +74,18 @@ class App:
         width, height = self.size
 
         self.game.draw(self.screen)
-        self.screen.blit(self.fps_surface, self.fps_surface.get_rect())
+#        self.screen.blit(self.fps_surface, self.fps_surface.get_rect())
 
         pygame.display.flip()
 
     def update(self):
         t = self.clock.tick(FPS_LIMIT)
 
-        self.fps_t += t
+        # self.fps_t += t
 
-        if self.fps_t > 1000:
-            self.fps_surface = self.font.render(str(int(self.clock.get_fps())) + " FPS", True, (0,0,0))
-            self.fps_t = 0
+        # if self.fps_t > 1000:
+        #     self.fps_surface = self.font.render(str(int(self.clock.get_fps())) + " FPS", True, (0,0,0))
+        #     self.fps_t = 0
 
 
         self.process_events(t)
