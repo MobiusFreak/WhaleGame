@@ -11,5 +11,5 @@ class MetalShip(Ship):
         if not self.__class__.img:
             self.__class__.img = pygame.image.load("../media/shitp_metal.png").convert_alpha()
 
-        Ship.__init__(self, self.__class__.img, projectile = Harpoon, health = 40, *args, **kargs)
+        Ship.__init__(self, self.__class__.img, score = 50, projectile = Harpoon, health = 100, *args, **kargs)
 

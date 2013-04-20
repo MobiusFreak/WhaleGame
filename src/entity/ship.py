@@ -14,13 +14,15 @@ SHIP_ACC = 5
 DAMAGE_UNDER_WATER = 5 # per second
 
 class Ship(Entity):
-    def __init__(self, Surface, projectile = None, *args, **kargs):
+    def __init__(self, Surface, score = 10, projectile = None, *args, **kargs):
         Entity.__init__(self, Surface, *args, **kargs)
 
         game = app.get_current_game()
         self.whales = game.whales.sprites()
 
         self.objective = self.whales[0]
+
+        self.score = score
 
         if projectile:
             mod = ShootingModifier(projectile)
@@ -82,5 +84,7 @@ class Ship(Entity):
             return Vector(0,0)
 
     def die(self):
+        game = app.get_current_game()
+        game.score += self.score
         sound.play("crack")
         Entity.die(self)

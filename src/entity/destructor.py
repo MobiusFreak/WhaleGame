@@ -13,6 +13,7 @@ class Destructor(Ship):
             Destructor.img = pygame.image.load("../media/destructor.png").convert_alpha()
 
 
-        Ship.__init__(self, Destructor.img, *args, projectile = Missile,
-                      health = 300, density = 0.85, **kargs)
+        Ship.__init__(self, Destructor.img, *args, score = 200,
+                      projectile = Missile, health = 300,
+                      density = 0.85, **kargs)
 
