@@ -34,8 +34,7 @@ class Whale(Entity):
 
     def update(self, t):
         Entity.update(self, t)
-        if self.health < 0:
-            print "He mueto"
+
 
     def update_acceleration(self, t):
         pressed = pygame.key.get_pressed()
@@ -56,3 +55,14 @@ class Whale(Entity):
             self.angular_acceleration += ANG_ACC
         elif pressed[self.key_left]:
             self.angular_acceleration -= ANG_ACC
+
+    def damage(self, diff, source = None):
+        if source == "collision":
+            diff *= 0.1
+        Entity.damage(self, diff, source)
+
+    def die(self):
+        game = app.get_current_game()
+        game.game_over = True
+
+

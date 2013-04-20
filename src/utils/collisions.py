@@ -2,6 +2,7 @@ import pygame, math
 from pygame.locals import *
 
 COLLISION_THRESHOLD = 0.01
+COLLISION_DAMAGE = 1
 
 # Physics
 def simple_physics_collision(A, B):
@@ -10,6 +11,11 @@ def simple_physics_collision(A, B):
 
     A.angular_speed, B.angular_speed = -B.angular_speed, -A.angular_speed
 
+def damage_simple_physics_collisions(A, B):
+    simple_physics_collision(A, B)
+    damage = (A.speed.module - B.speed.module) ** 2 * COLLISION_DAMAGE
+    A.damage(damage, "collision")
+    B.damage(damage, "collision")
 
 def advanced_physics_collision(A, B):
     rad_a, rad_b = radius(A,B)
@@ -75,7 +81,7 @@ def w_speed(A,B,rad_a,rad_b):
     return [w_a,w_b]
 
 
-def collisions(group1, group2, kill1 = False, kill2 = False, function = simple_physics_collision):
+def collisions(group1, group2, kill1 = False, kill2 = False, function = damage_simple_physics_collisions):
     colldic = pygame.sprite.groupcollide(group1, group2, kill1, kill2,
                                          collided = pygame.sprite.collide_mask)
 

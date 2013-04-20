@@ -12,6 +12,8 @@ class WhaleGame(BaseGame):
     def __init__(self, players = 2):
         BaseGame.__init__(self)
         self.players = players
+        self.game_over = False
+        self.score = 0
 
     def init(self, App):
         BaseGame.init(self, App)
@@ -20,6 +22,10 @@ class WhaleGame(BaseGame):
         self.entities = pygame.sprite.Group()
         self.modifiers = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
+        self.groups = [self.whales,
+                       self.entities,
+                       self.modifiers,
+                       self.projectiles]
 
         self.ocean = pygame.Surface(App.screen.get_size())
         self.ocean.fill((0,0,200))
@@ -52,7 +58,7 @@ class WhaleGame(BaseGame):
         self.draw_group(screen, pos, self.projectiles)
 
         # Draw HUD
-        self.draw_indicators(screen, pos)
+        self.draw_whales(screen, pos)
         self.draw_health(screen, pos)
         # TODO: draw modifiers
 
@@ -96,7 +102,7 @@ class WhaleGame(BaseGame):
             screen.blit(bar, rect)
 
 
-    def draw_indicators(self, screen, pos):
+    def draw_whales(self, screen, pos):
         width, height = screen.get_size()
         for whale in self.whales:
             dest = whale.rect.copy()
@@ -175,12 +181,10 @@ class WhaleGame(BaseGame):
         collisions(self.entities, self.modifiers)
 
 
-        self.whales.update(t)
-        self.entities.update(t)
-        self.modifiers.update(t)
-        self.projectiles.update(t)
+        for group in self.groups:
+            group.update(t)
 
-        return True
+        return not self.game_over
 
     def exit(self):
         pass
@@ -188,9 +192,13 @@ class WhaleGame(BaseGame):
 
     def projectile_hit(self, entity, projectile):
         if entity != projectile.shooter:
-            entity.health -= projectile.damage
+            entity.damage(projectile.damage)
             self.projectiles.remove(projectile)
 
+    def kill_entity(self, entity):
+        for group in self.groups:
+            entity.die()
+            group.remove(entity)
 
 def set_modifier(entity, modifier_entity):
     mod = modifier_entity.modifier

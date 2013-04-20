@@ -2,6 +2,9 @@ import pygame, sys
 from pygame.locals import *
 from utils import Vector
 
+import app
+
+
 AIR_FRICTION = 0.05
 WATER_FRICTION = 0.15
 
@@ -134,3 +137,13 @@ class Entity(pygame.sprite.Sprite):
             return (1 - self.density) * Vector(0,-5)
         else:
             return Vector(0,0)
+
+
+    def damage(self, diff, source = None):
+        self.health -= diff
+        if self.health <= 0:
+            game = app.get_current_game()
+            game.kill_entity(self)
+
+    def die(self):
+        pass

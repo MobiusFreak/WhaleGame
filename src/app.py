@@ -88,7 +88,8 @@ class App:
 
 
         self.process_events(t)
-        self.game.update(t)
+        if not self.game.update(t):
+            self.change_game(Menu())
 
         return True
 

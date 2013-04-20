@@ -6,7 +6,7 @@ class BaseGame(object):
         pass
 
     def update(self, t):
-        pass
+        return True
 
     def exit(self):
         pass
