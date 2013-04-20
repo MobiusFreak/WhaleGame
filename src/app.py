@@ -19,6 +19,8 @@ class App:
         register_event(KEYDOWN, self.escape, key = K_ESCAPE)
 
         self.fps_t = 0
+        self.font = pygame.font.Font("../media/font/VeraMono.ttf", 20)
+        self.fps_surface = self.font.render("? FPS", True, (0,0,0))
 
         self.game = game
         self.game.init(self)
@@ -59,6 +61,7 @@ class App:
         width, height = self.size
 
         self.game.draw(self.screen)
+        self.screen.blit(self.fps_surface, self.fps_surface.get_rect())
 
         pygame.display.flip()
 
@@ -67,12 +70,12 @@ class App:
 
         self.fps_t += t
 
-        if self.fps_t > 5000:
-            print int(self.clock.get_fps()), "FPS"
+        if self.fps_t > 1000:
+            self.fps_surface = self.font.render(str(int(self.clock.get_fps())) + " FPS", True, (0,0,0))
             self.fps_t = 0
 
-        self.process_events(t)
 
+        self.process_events(t)
         self.game.update(t)
 
         return True
