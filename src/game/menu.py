@@ -6,6 +6,8 @@ from utils.callbacks import *
 
 from utils import Vector
 
+import sound
+
 class Menu(BaseGame):
     def init(self, App):
         BaseGame.init(self, App)
@@ -42,11 +44,11 @@ class Menu(BaseGame):
                                 (0,100,0))
         self.screen.blit(text, self.dest, self.screen.get_rect())
 
-
         register_event(KEYDOWN, self.select_1_player , K_1)
         register_event(KEYDOWN, self.select_2_players , K_2)
 
     def select_1_player(self):
+        sound.play("oneplayer")
         unregister_event(KEYDOWN, self.select_1_player , K_1)
         unregister_event(KEYDOWN, self.select_2_players , K_2)
 
@@ -55,6 +57,7 @@ class Menu(BaseGame):
         self.draw_select_mode_screen()
 
     def select_2_players(self):
+        sound.play("twoplayers")
         unregister_event(KEYDOWN, self.select_1_player , K_1)
         unregister_event(KEYDOWN, self.select_2_players , K_2)
 

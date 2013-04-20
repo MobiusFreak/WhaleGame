@@ -15,11 +15,13 @@ class Survival(WhaleGame):
 
 
     def update(self, t):
-        if self.cooldown <= 0:
-            self.create_ship()
-            self.cooldown = randint(MIN_COOLDOWN, MAX_COOLDOWN)
-        else:
-            self.cooldown -= t
+        self.difficulty = self.score/10
+        if len(self.enemies) < 5:
+            if self.cooldown <= 0:
+                self.create_ship(int(self.difficulty))
+                self.cooldown = randint(MIN_COOLDOWN, MAX_COOLDOWN)
+            else:
+                self.cooldown -= t
         return WhaleGame.update(self, t)
 
     def create_ship(self, level = 1):
