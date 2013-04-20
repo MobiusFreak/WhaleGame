@@ -43,9 +43,7 @@ class Whale(Entity):
         if self.pos.y < 0:          # in air
             Entity.update_acceleration(self, t)
         elif pressed[self.key_acc]: # in water
-            # TODO: resolver el tema de los ejes
-            direction = Vector(self.direction.x, -self.direction.y)
-            self.acceleration = self.friction_vector() + direction * self.whale_acceleration
+            self.acceleration = self.friction_vector() + self.direction * self.whale_acceleration
         else:
             self.acceleration = self.friction_vector()
 
@@ -54,7 +52,7 @@ class Whale(Entity):
         pressed = pygame.key.get_pressed()
 
         Entity.update_angular_acceleration(self, t)
-        if pressed[self.key_left]:
+        if pressed[self.key_right]:
             self.angular_acceleration += ANG_ACC
-        elif pressed[self.key_right]:
+        elif pressed[self.key_left]:
             self.angular_acceleration -= ANG_ACC

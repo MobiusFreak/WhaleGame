@@ -56,7 +56,7 @@ class Entity(pygame.sprite.Sprite):
             self.rect.center = tuple(self.pos)
 
     def update_image_direction(self):
-        angle = self.direction.angle
+        angle = -self.direction.angle
 
         image = self.original_image.copy()
 
@@ -64,9 +64,10 @@ class Entity(pygame.sprite.Sprite):
         #if angle < 270 and angle > 90: # in water
         #    image = pygame.transform.flip(image, False, True)
 
+
         pos = self.rect.center
         self.image = pygame.transform.rotozoom(image,
-                                               self.direction.angle, 1)
+                                               angle, 1)
 
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
