@@ -21,7 +21,7 @@ def init():
     for sound_file in sound_files:
         name, extension = sound_file.split(".")
         if extension == "ogg":
-            base, num = name.split("_")
+            base, num = name.split("-")
 
             if not sounds.has_key(base):
                 sounds[base] = []

@@ -9,12 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="700"
-   height="700"
+   width="600"
+   height="600"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="shitp.svg"
+   inkscape:export-filename="/home/akathorn/pyweek/media/shitp.png"
+   inkscape:export-xdpi="9"
+   inkscape:export-ydpi="9">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="302.38552"
-     inkscape:cy="392.4799"
+     inkscape:cx="268.99972"
+     inkscape:cy="389.74721"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -34,7 +37,11 @@
      inkscape:window-height="724"
      inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -51,27 +58,34 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-352.36218)">
+     transform="translate(-33.385797,-449.62946)">
     <rect
-       style="fill:#784421;stroke:#000000;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#784421;stroke:#000000;stroke-width:8.73807144;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3759"
-       width="22.22374"
-       height="361.63428"
-       x="333.35034"
-       y="91.888161"
-       transform="translate(0,352.36218)" />
+       width="21.101395"
+       height="290.80823"
+       x="335.35721"
+       y="633.34296"
+       inkscape:export-filename="/home/akathorn/pyweek/media/shitp.png"
+       inkscape:export-xdpi="14.436292"
+       inkscape:export-ydpi="14.436292" />
     <path
-       style="fill:#784421;stroke:#000000;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 26.263967,366.64966 c 0,0 80.922493,243.12103 323.248813,232.33508 173.74139,-7.73323 331.33003,-256.57874 280.82241,-232.33508 -13.11458,6.295 -161.82189,56.56274 -276.74947,64.1432 -220.28246,14.52952 -327.321753,-64.1432 -327.321753,-64.1432 z"
+       style="fill:#784421;stroke:#000000;stroke-width:8.73807144;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 43.779349,854.29241 c 0,0 76.835731,195.50579 306.924061,186.83219 164.96708,-6.2186 314.59717,-206.32773 266.6403,-186.83219 -12.45227,5.06213 -153.64955,45.48494 -262.77305,51.58076 C 145.41292,917.55709 43.779349,854.29241 43.779349,854.29241 z"
        id="path2989"
        inkscape:connector-curvature="0"
-       transform="translate(0,352.36218)"
-       sodipodi:nodetypes="csssc" />
+       sodipodi:nodetypes="csssc"
+       inkscape:export-filename="/home/akathorn/pyweek/media/shitp.png"
+       inkscape:export-xdpi="14.436292"
+       inkscape:export-ydpi="14.436292" />
     <path
-       style="fill:#e6e6e6;stroke:#000000;stroke-width:9.90049839;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 340.11154,448.29096 74.751288,634.15903 344.07214,739.21489 z"
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:8.65112591;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 341.77695,636.59219 89.817955,786.05802 345.53754,870.5387 z"
        id="path3761"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/akathorn/pyweek/media/shitp.png"
+       inkscape:export-xdpi="14.436292"
+       inkscape:export-ydpi="14.436292" />
   </g>
 </svg>

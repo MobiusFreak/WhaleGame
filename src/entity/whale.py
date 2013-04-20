@@ -4,6 +4,8 @@ from pygame.locals import *
 
 from entity import *
 
+import sound
+
 ANG_ACC = 10
 
 class Whale(Entity):
@@ -32,10 +34,6 @@ class Whale(Entity):
             self.key_right = K_RIGHT
 
 
-    def update(self, t):
-        Entity.update(self, t)
-
-
     def update_acceleration(self, t):
         pressed = pygame.key.get_pressed()
 
@@ -62,6 +60,7 @@ class Whale(Entity):
         Entity.damage(self, diff, source)
 
     def die(self):
+        sound.play("loser")
         game = app.get_current_game()
         game.game_over = True
 

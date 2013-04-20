@@ -1,4 +1,4 @@
-from entity import Entity, Whale, Ship, ModifierEntity
+from entity import Entity, Whale, Ship, ModifierEntity, WoodShip
 from game import WhaleGame
 from random import randint
 
@@ -15,14 +15,18 @@ class Survival(WhaleGame):
 
 
     def update(self, t):
-        if self.cooldown <= 0:
-            self.create_ship()
-            self.cooldown = randint(MIN_COOLDOWN, MAX_COOLDOWN)
-        else:
-            self.cooldown -= t
+        if len(self.enemies) < 5:
+            if self.cooldown <= 0:
+                self.create_ship(int(self.difficulty))
+                self.cooldown = randint(MIN_COOLDOWN, MAX_COOLDOWN)
+            else:
+                self.cooldown -= t
         return WhaleGame.update(self, t)
 
     def create_ship(self, level = 1):
+
+        if self.difficulty < 10:
+            self.difficulty = int(self.score/50)
         width, heigth = self.app.screen.get_size()
 
         screen_x = self.screen_pos(self.app.screen).x
@@ -34,8 +38,7 @@ class Survival(WhaleGame):
             desp += width
 
         desp += screen_x
-        ship = Ship(pos = Vector(desp,0), acc = 2,
-                    whales = self.whales.sprites())
+        ship = WoodShip(pos = Vector(desp,0))
 
         self.enemies.add(ship)
         self.entities.add(ship)
