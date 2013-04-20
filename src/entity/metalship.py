@@ -3,7 +3,9 @@ from pygame.locals import *
 
 from projectile import Harpoon
 from ship import Ship
-
+from modifier_entity import *
+from random import randrange
+import app
 
 class MetalShip(Ship):
     img = None
@@ -12,5 +14,14 @@ class MetalShip(Ship):
         if not MetalShip.img:
             MetalShip.img = pygame.image.load("../media/shitp_metal.png").convert_alpha()
 
-        Ship.__init__(self, MetalShip.img, score = 50, projectile = Harpoon, health = 100, *args, **kargs)
+        Ship.__init__(self, MetalShip.img, score = 35, projectile = Harpoon, health = 100, *args, **kargs)
 
+
+    def die(self):
+        game = app.get_current_game()
+        num = randrange(0,1)
+        if num > 0.8:
+            ent = SpeedModifierEntity(pos = self.pos)
+            game.modifiers.add(ent)
+
+        Ship.die(self)
