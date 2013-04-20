@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding:utf-8 -*-
 #     Name of the program: Mobius - Description: a game about a whale that has to wreck every ship
 #     Copyright (C) 2013
 #
