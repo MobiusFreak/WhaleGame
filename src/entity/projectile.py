@@ -3,6 +3,7 @@ from pygame.locals import *
 
 from entity import Entity
 import app
+import sound
 
 REORIENTATION_ACCELERATION = 1
 
@@ -40,6 +41,7 @@ class Harpoon(Projectile):
 
 
 def shoot(shooter, Projectile, pos, direction, speed = 5):
+    sound.play("harpoon")
     direction.module = 1
     pos += direction
 

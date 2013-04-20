@@ -4,9 +4,11 @@ from pygame.locals import *
 from random import randint
 
 from entity import *
-from modifier import HarpoonModifier
+from projectile import *
+from modifier import ShootingModifier
 
 import app
+import sound
 
 ANG_ACC = 2
 SHIP_ACC = 5
@@ -20,7 +22,7 @@ class Ship(Entity):
         self.whales = game.whales.sprites()
 
         self.objective = self.whales[0]
-        mod = HarpoonModifier()
+        mod = ShootingModifier(Harpoon)
         mod.init(self)
         self.modifiers.append(mod)
 
@@ -77,3 +79,7 @@ class Ship(Entity):
             return (1 - self.density) * Vector(0,-5)
         else:
             return Vector(0,0)
+
+    def die(self):
+        sound.play("crack")
+        Entity.die(self)
